@@ -17,17 +17,33 @@ You can download the RDP configuration file here: [client.wvd.microsoft](https:/
 * click on your desired virtual machine
 * *.rdpx file should be downloaded to your system
 
-## Build and install
+## Download ready-to-use binaries
+
+You don't want to build RDP-Connector on your own? You can download recent versions from the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases).  
+Vou can try the latest freerdp binaries from [freerdp.com/releases](https://pub.freerdp.com/releases/).
+
+## Usage
+
+* start the app
+* go to settings and set the config-values
+* (you can use the wrapper-script from the freerdp binaries in the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases) as "Path to freerdp")  
+
+  ![settings screen](assets/settings-screen.png)
+
+* go to the main page and press "Start RDP"  
+  
+  ![main screen](assets/main-screen.png)
+
+## Build and install from Source
 
 You need npm and Rust installed on your system together with some system libraries - check the tauri docs for [prerequisites](https://tauri.app/start/prerequisites/).
-
 
 ```shell
 npm i
 npm run tauri:build
 ```
 
-After this, you get a ready to use binary und `src-tauri/target/release/rdp-connector`.  
+After this, you get a ready-to-use binary under `src-tauri/target/release/rdp-connector`.  
 Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_0.1.0_amd64.deb`
 
 ### (Optional) Build your own freerdp
@@ -44,31 +60,14 @@ chmod +x ./freerdp/build.sh
 
 Be patient, this will take some time….  
 
-Now you got working freerdp binaries with many static linked libraries (not all!) under `freerdp/bin/` and `freerdp/lib`.    
-Note: You will probably need some more runtime dependencies on your system to run freerdp directly.  
+Now you got freerdp binaries with many static linked libraries (not all!) under `freerdp/bin/` and `freerdp/lib`.    
+Note: You will probably need some more runtime-dependencies on your system to run freerdp directly.  
+But:  
 **You should be able to run freerdp with this little wrapper-script without installing external dependencies now:**
 
 ```shell
 ./freerdp/run-xfreerdp.sh
 ```
-
-## Download ready-to-use binaries
-
-You don't want to build RDP-Connector on your own? You can download recent versions from the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases).  
-Vou can try the latest freerdp binaries from [freerdp.com/releases](https://pub.freerdp.com/releases/).
-
-
-## Usage
-
-* start the app
-* go to settings and set the config-values
-* (you can use the wrapper-script from the "Build your own freerdp section" as "Path to freerdp" if you want)
-
-![settings screen](assets/settings-screen.png)
-
-* go to the main page and press "Start RDP"
-
-![main screen](assets/main-screen.png)
 
 ## Common errors
 
