@@ -2,4 +2,6 @@
 SCRIPT_DIR=$(dirname "$0")
 LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH
-exec "$SCRIPT_DIR/bin/xfreerdp" "$@"
+#WLOG_LEVEL=DEBUG
+#export WLOG_LEVEL
+exec "$SCRIPT_DIR/bin/xfreerdp" "$@ /gfx /gfx:AVC444 +gfx-progressive /gdi:hw /compression"
