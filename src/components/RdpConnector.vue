@@ -126,7 +126,7 @@
     startLog('FreeRDP Process started..')
     await invoke('start_pty', {
       program: config.value?.freerdpPath,
-      args: [config.value?.rdpFile, `/u:${config.value?.username}`, '/multitransport', '/network:auto'],
+      args: [config.value?.rdpFile, `/u:${config.value?.username}`],
     })
   }
 

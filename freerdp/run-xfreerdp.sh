@@ -1,7 +1,9 @@
 #!/bin/bash
 SCRIPT_DIR=$(dirname "$0")
+
 LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH
-#WLOG_LEVEL=DEBUG
+#WLOG_LEVEL=TRACE
 #export WLOG_LEVEL
-exec "$SCRIPT_DIR/bin/xfreerdp" "$@ /gfx /gfx:AVC444 +gfx-progressive /gdi:hw /compression"
+
+exec "$SCRIPT_DIR/bin/xfreerdp" "$@ /gfx /gfx:AVC444 +gfx-progressive /gdi:hw -compression /multitransport /network:lan /bpp:24"
