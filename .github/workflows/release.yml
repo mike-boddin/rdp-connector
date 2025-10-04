@@ -1,0 +1,60 @@
+name: Build Tauri App
+
+on:
+  push:
+    branches:
+      - "actions"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tauri App
+        run: npm run tauri build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}-artifacts
+          path: |
+            src-tauri/target/release/bundle/
+
+  freerdp:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build freerdp
+        run: bash ${{ github.workspace }}/freerdp/build.sh
+
+      - name: Package FreeRDP output
+        run: |
+          cd freerdp
+          tar -czf ../freerdp-bundle-${{ github.ref_name }}.tar.gz bin lib run-xfreerdp.sh
+        shell: bash
+
+      - name: Upload FreeRDP Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: freerdp-archive
+          path: freerdp-bundle-${{ github.ref_name }}.tar.gz
+
