@@ -23,7 +23,7 @@
   import { invoke } from '@tauri-apps/api/core'
   import { listen, type UnlistenFn } from '@tauri-apps/api/event'
   import { Store } from '@tauri-apps/plugin-store'
-  import { type IConnectionConfig, isConfigValid } from '@/types/connection-config.ts'
+  import { type IConnectionConfig, isConfigValid, printConfig } from '@/types/connection-config.ts'
 
   // fields
   const model = defineModel()
@@ -37,15 +37,14 @@
 
   // startup
   onMounted(async () => {
-    console.log('on mounted main')
     await startOauthFailureObserver()
-    await initStore()
+    await initConfig()
   })
 
   // functions
-  async function initStore () {
+  async function initConfig () {
     config.value = (await store.get<IConnectionConfig>('config'))
-    appendLogAsIs('config loaded: ' + JSON.stringify(config.value, null, 2))
+    appendLogAsIs('config loaded:\n' + printConfig(config.value))
     if (!configIsValid()) {
       appendLog('please setup all values!')
     }
@@ -60,7 +59,6 @@
       return
     }
     invalidLogs = []
-    console.log('stop listening for pty output')
     unlisten()
     unlisten = undefined
   }
@@ -123,10 +121,16 @@
   }
 
   async function startRdpProcess () {
+    const prog = config.value?.freerdpPath
+    const params = [config.value?.rdpFile, ...(config.value?.connectionParams || [])]
+    if (config?.value?.username) {
+      params.push(`/u:${config.value?.username}`)
+    }
     startLog('FreeRDP Process started..')
+    appendLog(`${prog} ` + params.join(' '))
     await invoke('start_pty', {
-      program: config.value?.freerdpPath,
-      args: [config.value?.rdpFile, `/u:${config.value?.username}`],
+      program: prog,
+      args: params,
     })
   }
 

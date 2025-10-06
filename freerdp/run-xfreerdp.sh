@@ -6,4 +6,4 @@ export LD_LIBRARY_PATH
 #WLOG_LEVEL=TRACE
 #export WLOG_LEVEL
 
-exec "$SCRIPT_DIR/bin/xfreerdp" "$@ /gfx /gfx:AVC444 +gfx-progressive /gdi:hw -compression /multitransport /network:lan /bpp:24"
+exec "$SCRIPT_DIR/bin/xfreerdp" "$@"
