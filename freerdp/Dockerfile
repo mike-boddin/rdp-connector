@@ -103,7 +103,14 @@ RUN cmake -GNinja \
     -DWITH_FFMPEG=ON \
     -DWITH_GFX_H264=ON \
     -DWITH_AAD=ON \
-    -DWITH_WINPR_JSON=ON
+    -DWITH_WINPR_JSON=ON \
+    -DWITH_JPEG=ON \
+    -DWITH_VAAPI=ON \
+    -DWITH_SWSCALE=ON \
+    -DWITH_GDI=ON \
+    -DWITH_SSE2=ON \
+    -DWITH_AVX2=ON \
+    -DWITH_UDP=ON
 
 RUN cmake --build freerdp-build && \
     cmake --install freerdp-build

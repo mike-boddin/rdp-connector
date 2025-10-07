@@ -35,14 +35,14 @@
 </template>
 
 <script setup lang="ts">
-  import router from '@/router/index.js'
+  import router from '@/router/index.js';
 
   onMounted(() => {
-    goToHome()
-  })
+    goToHome();
+  });
 
   function goToHome () {
-    router.push('/main')
+    router.push('/main');
   }
 
 </script>
