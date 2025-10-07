@@ -1,5 +1,5 @@
 export interface ListItem<T = any> extends InternalItem<T> {
-  title?: string;
+  title?: string
   props: {
     [key: string]: any
     title?: string

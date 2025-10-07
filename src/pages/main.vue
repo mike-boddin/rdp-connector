@@ -9,5 +9,5 @@
 
 <script lang="ts" setup>
 //
-  import RdpConnector from '@/components/RdpConnector.vue'
+  import RdpConnector from '@/components/RdpConnector.vue';
 </script>

@@ -1,18 +1,18 @@
-import { fileURLToPath, URL } from 'node:url'
-import Vue from '@vitejs/plugin-vue'
+import { fileURLToPath, URL } from 'node:url';
+import Vue from '@vitejs/plugin-vue';
 // Plugins
-import AutoImport from 'unplugin-auto-import/vite'
-import Fonts from 'unplugin-fonts/vite'
-import Components from 'unplugin-vue-components/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import VueRouter from 'unplugin-vue-router/vite'
+import AutoImport from 'unplugin-auto-import/vite';
+import Fonts from 'unplugin-fonts/vite';
+import Components from 'unplugin-vue-components/vite';
+import { VueRouterAutoImports } from 'unplugin-vue-router';
+import VueRouter from 'unplugin-vue-router/vite';
 // Utilities
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 
-import Layouts from 'vite-plugin-vue-layouts-next'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import Layouts from 'vite-plugin-vue-layouts-next';
+import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
-const host = process.env.TAURI_DEV_HOST
+const host = process.env.TAURI_DEV_HOST;
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
@@ -106,4 +106,4 @@ export default defineConfig(async () => ({
       '.vue',
     ],
   },
-}))
+}));

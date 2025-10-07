@@ -39,11 +39,10 @@
 </template>
 
 <script setup lang="ts">
-  import type { IConnectionConfig } from '@/types/connection-config.ts'
-  import type { ListItem } from '@/types/list-item.ts'
-  import { Store } from '@tauri-apps/plugin-store'
-  import router from '@/router'
-
+  import type { IConnectionConfig } from '@/types/connection-config.ts';
+  import type { ListItem } from '@/types/list-item.ts';
+  import { Store } from '@tauri-apps/plugin-store';
+  import router from '@/router';
 
   const store = await Store.load('settings1.json');
   const username = ref('');
@@ -67,42 +66,42 @@
 
   function loadParams (params: string[]): ListItem[] {
     return params.map(p => {
-      console.log('try match', p)
-      return suggestedItems.find(s => s.title == p) || { title: p, props: { description: 'custom property' } }
+      console.log('try match', p);
+      return suggestedItems.find(s => s.title == p) || { title: p, props: { description: 'custom property' } };
     });
   }
 
   async function init () {
-    config = (await store.get('config')) || { rdpFile: '', freerdpPath: '', username: '', connectionParams: [] }
-    freerdpPath.value = config.freerdpPath
-    rdpFile.value = config.rdpFile
-    username.value = config.username
-    additionalProperties.value = loadParams(config.connectionParams || [])
+    config = (await store.get('config')) || { rdpFile: '', freerdpPath: '', username: '', connectionParams: [] };
+    freerdpPath.value = config.freerdpPath;
+    rdpFile.value = config.rdpFile;
+    username.value = config.username;
+    additionalProperties.value = loadParams(config.connectionParams || []);
   }
 
   async function saveConfig () {
     if (!store) {
-      return
+      return;
     }
-    config.username = username.value
-    config.freerdpPath = freerdpPath.value
-    config.rdpFile = rdpFile.value
-    config.connectionParams = additionalProperties.value.map((p: ListItem | string) => {
-      return <string> (typeof p === 'string' ? p : p.title)
-    })
-    await store.set('config', config)
-    await store.save()
+    config.username = username.value;
+    config.freerdpPath = freerdpPath.value;
+    config.rdpFile = rdpFile.value;
+    config.connectionParams = additionalProperties.value.map((p: ListItem | string) =>
+      typeof p === 'string' ? p : p.title || '',
+    );
+    await store.set('config', config);
+    await store.save();
   }
 
   async function save (close: boolean) {
-    await saveConfig()
+    await saveConfig();
     if (close) {
-      router.push('/main').then(_ => {})
+      router.push('/main').then(_ => {});
     }
   }
 
   async function reset () {
-    await init()
+    await init();
   }
 
 </script>

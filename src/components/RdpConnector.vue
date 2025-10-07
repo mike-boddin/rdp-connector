@@ -20,118 +20,118 @@
   </v-container>
 </template>
 <script setup lang="ts">
-  import { invoke } from '@tauri-apps/api/core'
-  import { listen, type UnlistenFn } from '@tauri-apps/api/event'
-  import { Store } from '@tauri-apps/plugin-store'
-  import { type IConnectionConfig, isConfigValid, printConfig } from '@/types/connection-config.ts'
+  import { invoke } from '@tauri-apps/api/core';
+  import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+  import { Store } from '@tauri-apps/plugin-store';
+  import { type IConnectionConfig, isConfigValid, printConfig } from '@/types/connection-config.ts';
 
   // fields
-  const model = defineModel()
-  const store = await Store.load('settings1.json')
-  let unlisten: UnlistenFn | undefined
-  let invalidLogs: string[] = []
-  let oauthWaiterIntervalId: number
-  let waitingForOauthResult: boolean
-  const config = defineModel<IConnectionConfig>('config')
-  const configIsValid = () => isConfigValid(config.value)
+  const model = defineModel();
+  const store = await Store.load('settings1.json');
+  let unlisten: UnlistenFn | undefined;
+  let invalidLogs: string[] = [];
+  let oauthWaiterIntervalId: number;
+  let waitingForOauthResult: boolean;
+  const config = defineModel<IConnectionConfig>('config');
+  const configIsValid = () => isConfigValid(config.value);
 
   // startup
   onMounted(async () => {
-    await startOauthFailureObserver()
-    await initConfig()
-  })
+    await startOauthFailureObserver();
+    await initConfig();
+  });
 
   // functions
   async function initConfig () {
-    config.value = (await store.get<IConnectionConfig>('config'))
-    appendLogAsIs('config loaded:\n' + printConfig(config.value))
+    config.value = (await store.get<IConnectionConfig>('config'));
+    appendLogAsIs('config loaded:\n' + printConfig(config.value));
     if (!configIsValid()) {
-      appendLog('please setup all values!')
+      appendLog('please setup all values!');
     }
   }
 
   function shouldNotLog (txt: string) {
-    return (invalidLogs.some(x => x.includes(txt.replace(/[\t\n\r]/gm, ''))))
+    return (invalidLogs.some(x => x.includes(txt.replace(/[\t\n\r]/gm, ''))));
   }
 
   function stopListening () {
     if (!unlisten) {
-      return
+      return;
     }
-    invalidLogs = []
-    unlisten()
-    unlisten = undefined
+    invalidLogs = [];
+    unlisten();
+    unlisten = undefined;
   }
 
   async function startRdp (retryCount = 0) {
     if (retryCount == 3) {
-      appendLog('stop trying after 3 startup-failures')
-      return
+      appendLog('stop trying after 3 startup-failures');
+      return;
     }
-    stopListening()
-    startLog('Process started..')
-    let times = 0
+    stopListening();
+    startLog('Process started..');
+    let times = 0;
     unlisten = await listen<string>('pty-output', async event => {
       if (event.payload.includes('https') && !event.payload.includes('code=')) {
-        const urlRegex = /(https?:\/\/[^\s]+)/g
-        const matches: string[] = event.payload.match(urlRegex) || []
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const matches: string[] = event.payload.match(urlRegex) || [];
         if (matches.length > 0) {
-          appendLog(times == 0 ? 'oauth-flow detected' : 'almost there...')
-          times++
-          await initOAuthListener(matches[0])
+          appendLog(times == 0 ? 'oauth-flow detected' : 'almost there...');
+          times++;
+          await initOAuthListener(matches[0]);
         }
       } else if (!event.payload.includes('https') && !shouldNotLog(event.payload)) {
-        appendLog('[RDP] ' + event.payload)
+        appendLog('[RDP] ' + event.payload);
       }
       if (event.payload.includes('ERRCONNECT_CONNECT_CANCELLED')) {
-        await stopPty()
-        stopListening()
+        await stopPty();
+        stopListening();
       }
-    })
+    });
 
     try {
-      await startRdpProcess()
+      await startRdpProcess();
     } catch (error) {
-      retryCount = retryCount + 1
-      console.error(error)
+      retryCount = retryCount + 1;
+      console.error(error);
       if (error) {
-        appendLog(error.toString())
+        appendLog(error.toString());
       }
-      await stopPty()
-      stopListening()
-      await startRdp(retryCount)
+      await stopPty();
+      stopListening();
+      await startRdp(retryCount);
     }
   }
 
   function startLog (msg: string) {
-    model.value = msg
+    model.value = msg;
   }
 
   function appendLog (msg: string) {
-    model.value = msg.replace(/[\n\r]/gm, '') + '\n' + (model.value || '')
+    model.value = msg.replace(/[\n\r]/gm, '') + '\n' + (model.value || '');
   }
 
   function appendLogAsIs (msg: string) {
-    model.value = msg + '\n' + (model.value || '')
+    model.value = msg + '\n' + (model.value || '');
   }
 
   async function stopPty () {
-    await invoke('stop_pty')
-    appendLog('Process stopped')
+    await invoke('stop_pty');
+    appendLog('Process stopped');
   }
 
   async function startRdpProcess () {
-    const prog = config.value?.freerdpPath
-    const params = [config.value?.rdpFile, ...(config.value?.connectionParams || [])]
+    const prog = config.value?.freerdpPath;
+    const params = [config.value?.rdpFile, ...(config.value?.connectionParams || [])];
     if (config?.value?.username) {
-      params.push(`/u:${config.value?.username}`)
+      params.push(`/u:${config.value?.username}`);
     }
-    startLog('FreeRDP Process started..')
-    appendLog(`${prog} ` + params.join(' '))
+    startLog('FreeRDP Process started..');
+    appendLog(`${prog} ` + params.join(' '));
     await invoke('start_pty', {
       program: prog,
       args: params,
-    })
+    });
   }
 
   /**
@@ -141,34 +141,34 @@
    */
   async function initOAuthListener (url: string | undefined) {
     if (!url) {
-      return
+      return;
     }
-    await invoke('open_oauth_window', { url: url })
-    waitingForOauthResult = true
+    await invoke('open_oauth_window', { url: url });
+    waitingForOauthResult = true;
 
     oauthWaiterIntervalId = setInterval(async () => {
-      const currentUrlOfOauthFlow: string = await invoke('read_oauth_url')
+      const currentUrlOfOauthFlow: string = await invoke('read_oauth_url');
 
       if (currentUrlOfOauthFlow.includes('code=')) {
-        waitingForOauthResult = false
-        invalidLogs.push(currentUrlOfOauthFlow)
-        appendLog('send oauth code to freerdp process')
-        clearInterval(oauthWaiterIntervalId)
-        await invoke('close_oauth_window')
-        await invoke('send_pty_input', { input: currentUrlOfOauthFlow })
-        return
+        waitingForOauthResult = false;
+        invalidLogs.push(currentUrlOfOauthFlow);
+        appendLog('send oauth code to freerdp process');
+        clearInterval(oauthWaiterIntervalId);
+        await invoke('close_oauth_window');
+        await invoke('send_pty_input', { input: currentUrlOfOauthFlow });
+        return;
       }
-    }, 300)
+    }, 300);
   }
 
   async function startOauthFailureObserver () {
     const oauthWaiter = await listen<string>('oauth-closed', async event => {
       if (waitingForOauthResult) {
-        appendLog(`oauth window unexpectedly closed`)
-        clearInterval(oauthWaiterIntervalId)
-        await stopPty()
+        appendLog(`oauth window unexpectedly closed`);
+        clearInterval(oauthWaiterIntervalId);
+        await stopPty();
       }
-    })
+    });
   }
 
 </script>
