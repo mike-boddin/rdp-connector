@@ -6,6 +6,7 @@
 - username isn't required anymore
 - add automatic release via GitHub workflow
 - add version to footer
+- some code cleanup and style improvements
 
 ## v0.1.0
 
