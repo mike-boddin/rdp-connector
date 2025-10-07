@@ -85,6 +85,8 @@ jobs:
   release:
     needs: [build, freerdp]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repo
