@@ -2,7 +2,10 @@
 
 ## v0.2.0
 
-- added automatic release via GitHub workflow
+- add a params section in Settings to be more flexible
+- username isn't required anymore
+- add automatic release via GitHub workflow
+- add version to footer
 
 ## v0.1.0
 

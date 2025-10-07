@@ -22,7 +22,7 @@
       class="text-caption text-disabled"
       style="position: absolute; right: 16px;"
     >
-      &copy; 2025-{{ (new Date()).getFullYear() }} <span class="d-none d-sm-inline-block">mike-boddin</span>
+      v{{version}} &copy; 2025-{{ (new Date()).getFullYear() }} <span class="d-none d-sm-inline-block">mike-boddin</span>
       —
       <a
         class="text-decoration-none on-surface"
@@ -37,6 +37,15 @@
 </template>
 
 <script setup lang="ts">
+  import { getVersion } from '@tauri-apps/api/app'
+
+  onMounted(async () => {
+    version.value = await getVersion()
+    console.log('version', version)
+  })
+
+  const version = ref('')
+
   const items = [
     {
       title: 'RDP Connector GitHub',
