@@ -27,3 +27,4 @@ freerdp/bin/
 freerdp/lib/
 *.tar.gz
 /.env
+/.nvmrc
