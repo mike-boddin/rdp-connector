@@ -36,8 +36,12 @@
 
 <script setup lang="ts">
   import router from '@/router/index.js';
+  import { useRdpConnectionStore } from '@/stores/rdp-connection.ts';
 
-  onMounted(() => {
+  const rdpStore = useRdpConnectionStore();
+
+  onMounted(async () => {
+    await rdpStore.init();
     goToHome();
   });
 

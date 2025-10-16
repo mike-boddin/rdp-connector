@@ -38,7 +38,6 @@
 
   // startup
   onMounted(async () => {
-    await startOauthFailureObserver();
     await initConfig();
   });
 
@@ -153,16 +152,6 @@
         return;
       }
     }, 300);
-  }
-
-  async function startOauthFailureObserver () {
-    const oauthWaiter = await listen<string>('oauth-closed', async event => {
-      if (waitingForOauthResult) {
-        logStore.appendLog(`oauth window unexpectedly closed`);
-        clearInterval(oauthWaiterIntervalId);
-        await stopPty();
-      }
-    });
   }
 
 </script>
