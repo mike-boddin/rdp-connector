@@ -5,6 +5,8 @@ updates:
     schedule:
       interval: "weekly"
       day: "friday"
+    assignees:
+      - "mike-boddin"
     open-pull-requests-limit: 10
     ignore:
       - dependency-name: "vue"
@@ -30,6 +32,8 @@ updates:
     schedule:
       interval: "weekly"
       day: "friday"
+    assignees:
+      - "mike-boddin"
     open-pull-requests-limit: 5
     commit-message:
       prefix: "deps(cargo):"
@@ -42,5 +46,7 @@ updates:
     schedule:
       interval: "weekly"
       day: "friday"
+    assignees:
+      - "mike-boddin"
     commit-message:
       prefix: "deps(actions):"
