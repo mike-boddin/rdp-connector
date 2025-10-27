@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.1
+
+- update dependencies
+
 ## v0.2.0
 
 - add a params section in Settings to be more flexible
