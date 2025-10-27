@@ -1,6 +1,6 @@
 [package]
 name = "rdp-connector"
-version = "0.2.0"
+version = "0.2.1"
 description = "RDP Connector"
 authors = ["Mike Boddin"]
 edition = "2024"
