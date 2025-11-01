@@ -6,7 +6,7 @@ import { type IConnectionConfig, isConfigValid, printConfig } from '@/types/conn
 
 export const useConfigStore = defineStore('config-store', {
   state: () => ({
-    config: undefined as IConnectionConfig | undefined,
+    config: { username: '', connectionParams: [], freerdpPath: '', rdpFile: '' } as IConnectionConfig,
   }),
   getters: {
     configIsValid (): boolean {
@@ -17,11 +17,17 @@ export const useConfigStore = defineStore('config-store', {
     async initConfig (store: Store) {
       const logStore = useLogStore();
 
-      this.config = (await store.get<IConnectionConfig>('config'));
+      this.config = (await store.get<IConnectionConfig>('config')) || { username: '', connectionParams: [], freerdpPath: '', rdpFile: '' };
       logStore.appendLogAsIs('config loaded:\n' + printConfig(this.config));
       if (!isConfigValid(this.config)) {
         logStore.appendLog('please setup all values!');
       }
+    },
+    async saveConfig (store: Store) {
+      const logStore = useLogStore();
+      await store.set('config', this.config);
+      await store.save();
+      logStore.appendLogAsIs('config saved:\n' + printConfig(this.config));
     },
   },
 });
