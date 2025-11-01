@@ -43,6 +43,7 @@
   import type { ListItem } from '@/types/list-item.ts';
   import { Store } from '@tauri-apps/plugin-store';
   import router from '@/router';
+  import { log } from '@/types/logger.ts';
 
   const store = await Store.load('settings1.json');
   const username = ref('');
@@ -66,7 +67,7 @@
 
   function loadParams (params: string[]): ListItem[] {
     return params.map(p => {
-      console.log('try match', p);
+      log('try match', p);
       return suggestedItems.find(s => s.title == p) || { title: p, props: { description: 'custom property' } };
     });
   }

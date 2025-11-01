@@ -38,10 +38,11 @@
 
 <script setup lang="ts">
   import { getVersion } from '@tauri-apps/api/app';
+  import { log } from '@/types/logger.ts';
 
   onMounted(async () => {
     version.value = await getVersion();
-    console.log('version', version);
+    log('version', version);
   });
 
   const version = ref('');
