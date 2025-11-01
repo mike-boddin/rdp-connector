@@ -2,6 +2,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 // Utilities
 import { defineStore } from 'pinia';
+import { useConfigStore } from '@/stores/config.ts';
 import { useLogStore } from '@/stores/log.ts';
 
 export const useRdpConnectionStore = defineStore('rdp-connection-store', {
@@ -12,7 +13,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
     firstTimeOauth: true,
   }),
   getters: {
-    processIsRunning (state) {
+    processIsRunning (_) {
       return false;
     },
 
@@ -27,12 +28,11 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
         return;
       }
       const logStore = useLogStore();
-      this.oauthWaiter = await listen<string>('oauth-closed', async event => {
+      this.oauthWaiter = await listen<string>('oauth-closed', async () => {
         if (this.waitingForOauthResult) {
           logStore.appendLog(`oauth window unexpectedly closed`);
           clearInterval(this.oauthWaiterIntervalId);
-          await invoke('stop_pty');
-          logStore.appendLog('Process stopped');
+          await this.stopPty();
         }
       });
     },
@@ -48,34 +48,32 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
             await this.initOAuthListener(matches[0]);
           }
         } else if (!event.payload.includes('https')) {
-          logStore.appendLog('[RDP] ' + event.payload);
+          logStore.appendLog(event.payload, 'RDP');
         }
         if (event.payload.includes('ERRCONNECT_CONNECT_CANCELLED')) {
-          await invoke('stop_pty');
+          await this.stopPty();
         }
       });
     },
     async startRdp (retryCount = 0) {
       const logStore = useLogStore();
+
       if (retryCount == 3) {
         logStore.appendLog('stop trying after 3 startup-failures');
         return;
       }
       logStore.clearLog();
       logStore.appendLog('Process started..');
-      const times = 0;
-
       try {
-        await startRdpProcess();
+        await this.startRdpProcess();
       } catch (error) {
         retryCount = retryCount + 1;
         console.error(error);
         if (error) {
           logStore.appendLog(error.toString());
         }
-        await stopPty();
-        stopListening();
-        await startRdp(retryCount);
+        await this.stopPty();
+        await this.startRdp(retryCount);
       }
     },
     /**
@@ -104,6 +102,27 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
           return;
         }
       }, 300);
+    },
+    async startRdpProcess () {
+      const configStore = useConfigStore();
+      const logStore = useLogStore();
+      const prog = configStore.config?.freerdpPath;
+      const params = [configStore.config?.rdpFile, ...(configStore.config?.connectionParams || [])];
+      if (configStore.config?.username) {
+        params.push(`/u:${configStore.config?.username}`);
+      }
+      logStore.clearLog();
+      logStore.appendLog('FreeRDP Process started..');
+      logStore.appendLog(`${prog} ` + params.join(' '));
+      await invoke('start_pty', {
+        program: prog,
+        args: params,
+      });
+    },
+    async stopPty () {
+      const logStore = useLogStore();
+      await invoke('stop_pty');
+      logStore.appendLog('Process stopped');
     },
   },
 });

@@ -1,5 +1,3 @@
-import { listen } from '@tauri-apps/api/event';
-// Utilities
 import { defineStore } from 'pinia';
 
 export const useLogStore = defineStore('log-store', {
@@ -9,11 +7,13 @@ export const useLogStore = defineStore('log-store', {
   }),
   getters: {},
   actions: {
-    appendLog (msg: string) {
+    appendLog (msg: string, prefix = '') {
       if (this.shouldNotLog(msg)) {
         return;
       }
-      this.log = msg.replace(/[\n\r]/gm, '') + '\n' + (this.log || '');
+      const pfx = prefix == '' ? '' : `[${prefix}] `;
+      const message = `${pfx}` + msg.replace(/[\n\r]/gm, '');
+      this.log = message + '\n' + (this.log || '');
     },
     appendLogAsIs (msg: string) {
       if (this.shouldNotLog(msg)) {
@@ -25,7 +25,7 @@ export const useLogStore = defineStore('log-store', {
       this.log = '';
     },
     shouldNotLog (msg: string): boolean {
-      return this.forbiddenLogs.some(forbiddenLog => msg.includes(forbiddenLog));
+      return this.forbiddenLogs.some(forbiddenLog => forbiddenLog.includes(msg));
     },
     suppressLogsWith (msg: string) {
       this.forbiddenLogs.push(msg);
