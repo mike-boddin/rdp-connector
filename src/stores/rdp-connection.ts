@@ -11,13 +11,9 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
     waitingForOauthResult: false,
     oauthWaiterIntervalId: undefined as number | undefined,
     firstTimeOauth: true,
+    processIsRunning: false,
   }),
-  getters: {
-    processIsRunning (_) {
-      return false;
-    },
-
-  },
+  getters: {},
   actions: {
     async init () {
       await this.listenForOauthClosed();
@@ -31,7 +27,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
       this.oauthWaiter = await listen<string>('oauth-closed', async () => {
         if (this.waitingForOauthResult) {
           logStore.appendLog(`oauth window unexpectedly closed`);
-          clearInterval(this.oauthWaiterIntervalId);
+          await this.stopWaitingForOauthResult();
           await this.stopPty();
         }
       });
@@ -45,7 +41,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
           if (matches.length > 0) {
             logStore.appendLog(this.firstTimeOauth ? 'oauth-flow detected' : 'almost there...');
             this.firstTimeOauth = false;
-            await this.initOAuthListener(matches[0]);
+            await this.startWaitingForOauthResult(matches[0]);
           }
         } else if (!event.payload.includes('https')) {
           logStore.appendLog(event.payload, 'RDP');
@@ -55,7 +51,16 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
         }
       });
     },
+    async toggleRdp () {
+      if (this.processIsRunning) {
+        await this.stopWaitingForOauthResult();
+        await this.stopPty();
+      } else {
+        await this.startRdp();
+      }
+    },
     async startRdp (retryCount = 0) {
+      this.firstTimeOauth = true;
       const logStore = useLogStore();
 
       if (retryCount == 3) {
@@ -65,7 +70,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
       logStore.clearLog();
       logStore.appendLog('Process started..');
       try {
-        await this.startRdpProcess();
+        await this.startPty();
       } catch (error) {
         retryCount = retryCount + 1;
         console.error(error);
@@ -81,7 +86,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
      * sends the redirect url to the rdp-prcoess afterward
      * @param url
      */
-    async initOAuthListener (url: string | undefined) {
+    async startWaitingForOauthResult (url: string | undefined) {
       if (!url) {
         return;
       }
@@ -93,17 +98,20 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
         const currentUrlOfOauthFlow: string = await invoke('read_oauth_url');
 
         if (currentUrlOfOauthFlow.includes('code=')) {
-          this.waitingForOauthResult = false;
           logStore.suppressLogsWith(currentUrlOfOauthFlow);
           logStore.appendLog('send oauth code to freerdp process');
-          clearInterval(this.oauthWaiterIntervalId);
-          await invoke('close_oauth_window');
+          await this.stopWaitingForOauthResult();
           await invoke('send_pty_input', { input: currentUrlOfOauthFlow });
           return;
         }
       }, 300);
     },
-    async startRdpProcess () {
+    async stopWaitingForOauthResult () {
+      this.waitingForOauthResult = false;
+      clearInterval(this.oauthWaiterIntervalId);
+      await invoke('close_oauth_window');
+    },
+    async startPty () {
       const configStore = useConfigStore();
       const logStore = useLogStore();
       const prog = configStore.config?.freerdpPath;
@@ -118,11 +126,13 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
         program: prog,
         args: params,
       });
+      this.processIsRunning = true;
     },
     async stopPty () {
       const logStore = useLogStore();
       await invoke('stop_pty');
       logStore.appendLog('Process stopped');
+      this.processIsRunning = false;
     },
   },
 });

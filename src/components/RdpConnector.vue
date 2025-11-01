@@ -2,7 +2,9 @@
   <v-container>
     <v-row no-gutters>
       <v-col align-self="stretch">
-        <v-btn :disabled="!configStore.configIsValid" width="100%" @click="startRdp()">start RDP</v-btn>
+        <v-btn :active="rdpStore.processIsRunning" :disabled="!configStore.configIsValid" width="100%" @click="rdpStore.toggleRdp()">
+          {{ buttonText }}
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -29,14 +31,12 @@
   const rdpStore = useRdpConnectionStore();
   const configStore = useConfigStore();
 
+  const buttonText = computed(() => {
+    return rdpStore.processIsRunning ? 'stop RDP' : 'start RDP';
+  });
+
   // startup
   onMounted(async () => {});
-
-  // functions
-
-  async function startRdp () {
-    await rdpStore.startRdp();
-  }
 
 </script>
 <style scoped>
