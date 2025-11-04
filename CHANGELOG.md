@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.0
+
+- refactor / use pinia store
+- keep log persisted when changing views
+
 ## v0.2.2
 
 - update dependencies
