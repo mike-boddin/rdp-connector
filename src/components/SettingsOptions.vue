@@ -41,6 +41,7 @@
 <script setup lang="ts">
   import type { ListItem } from '@/types/list-item.ts';
   import { Store } from '@tauri-apps/plugin-store';
+  import { onBeforeRouteLeave } from 'vue-router';
   import router from '@/router';
   import { useConfigStore } from '@/stores/config.ts';
   import { log } from '@/types/logger.ts';
@@ -60,6 +61,11 @@
 
   const additionalProperties = ref<ListItem[]>([]);
   onMounted(async () => await init());
+
+  onBeforeRouteLeave(async () => {
+    await reset();
+    return true;
+  });
 
   function loadParams (params: string[]): ListItem[] {
     return params.map(p => {
@@ -89,6 +95,8 @@
   }
 
   async function reset () {
+    const store = await Store.load('settings1.json');
+    await configStore.initConfig(store);
     await init();
   }
 
