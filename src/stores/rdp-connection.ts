@@ -12,6 +12,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
     oauthWaiterIntervalId: undefined as number | undefined,
     firstTimeOauth: true,
     processIsRunning: false,
+    errorStates: ['Failed to connect', 'ERRCONNECT_CONNECT_CANCELLED'],
   }),
   getters: {},
   actions: {
@@ -46,7 +47,7 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
         } else if (!event.payload.includes('https')) {
           logStore.appendLog(event.payload, 'RDP');
         }
-        if (event.payload.includes('ERRCONNECT_CONNECT_CANCELLED')) {
+        if (this.errorStates.some(err => event.payload.includes(err))) {
           await this.stopPty();
         }
       });
