@@ -41,7 +41,7 @@
     "unplugin-vue-components": "^30.0.0",
     "unplugin-vue-router": "^0.16.1",
     "vite": "^7.1.10",
-    "vite-plugin-vue-layouts-next": "^1.1.1",
+    "vite-plugin-vue-layouts-next": "^1.2.0",
     "vite-plugin-vuetify": "^2.1.2",
     "vue-tsc": "^3.1.2"
   }
