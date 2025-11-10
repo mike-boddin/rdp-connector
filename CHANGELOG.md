@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.1
+
+- update dependencies
+
 ## v0.3.0
 
 - refactor / use pinia store
