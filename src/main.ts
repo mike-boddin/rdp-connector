@@ -12,7 +12,6 @@ import { registerPlugins } from '@/plugins';
 
 // Components
 import App from './App.vue';
-
 // Styles
 import 'unfonts.css';
 

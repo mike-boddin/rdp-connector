@@ -35,9 +35,18 @@
 </template>
 
 <script setup lang="ts">
+  import { Store } from '@tauri-apps/plugin-store';
   import router from '@/router/index.js';
+  import { useConfigStore } from '@/stores/config.ts';
+  import { useRdpConnectionStore } from '@/stores/rdp-connection.ts';
 
-  onMounted(() => {
+  const rdpStore = useRdpConnectionStore();
+  const configStore = useConfigStore();
+
+  onMounted(async () => {
+    const store = await Store.load('settings1.json');
+    await configStore.initConfig(store);
+    await rdpStore.init();
     goToHome();
   });
 

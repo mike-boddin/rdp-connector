@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <v-text-field v-model="rdpFile" label="Path to rdp(x) File" :type="'text'" />
-    <v-text-field v-model="freerdpPath" label="Path to freerdp" :type="'text'" />
-    <v-text-field v-model="username" label="username" :type="'text'" />
+    <v-text-field v-model="configStore.config.rdpFile" label="Path to rdp(x) File" :type="'text'" />
+    <v-text-field v-model="configStore.config.freerdpPath" label="Path to freerdp" :type="'text'" />
+    <v-text-field v-model="configStore.config.username" label="username" :type="'text'" />
     <v-combobox
       v-model="additionalProperties"
       chips
@@ -39,15 +39,15 @@
 </template>
 
 <script setup lang="ts">
-  import type { IConnectionConfig } from '@/types/connection-config.ts';
   import type { ListItem } from '@/types/list-item.ts';
   import { Store } from '@tauri-apps/plugin-store';
+  import { onBeforeRouteLeave } from 'vue-router';
   import router from '@/router';
+  import { useConfigStore } from '@/stores/config.ts';
+  import { log } from '@/types/logger.ts';
 
-  const store = await Store.load('settings1.json');
-  const username = ref('');
-  const freerdpPath = ref('');
-  const rdpFile = ref('');
+  const configStore = useConfigStore();
+
   const suggestedItems: ListItem[] = [
     { title: '/gfx', props: { description: 'enables the RemoteFX / RDP8 graphics pipeline' } },
     { title: '/gfx:AVC444', props: { description: 'H.264/AVC in 4:4:4 chroma, sharp text' } },
@@ -60,37 +60,31 @@
   ];
 
   const additionalProperties = ref<ListItem[]>([]);
-  let config: IConnectionConfig;
-
   onMounted(async () => await init());
+
+  onBeforeRouteLeave(async () => {
+    await reset();
+    return true;
+  });
 
   function loadParams (params: string[]): ListItem[] {
     return params.map(p => {
-      console.log('try match', p);
+      log('try match', p);
       return suggestedItems.find(s => s.title == p) || { title: p, props: { description: 'custom property' } };
     });
   }
 
   async function init () {
-    config = (await store.get('config')) || { rdpFile: '', freerdpPath: '', username: '', connectionParams: [] };
-    freerdpPath.value = config.freerdpPath;
-    rdpFile.value = config.rdpFile;
-    username.value = config.username;
-    additionalProperties.value = loadParams(config.connectionParams || []);
+    additionalProperties.value = loadParams(configStore.config.connectionParams || []);
   }
 
   async function saveConfig () {
-    if (!store) {
-      return;
-    }
-    config.username = username.value;
-    config.freerdpPath = freerdpPath.value;
-    config.rdpFile = rdpFile.value;
-    config.connectionParams = additionalProperties.value.map((p: ListItem | string) =>
+    configStore.config.connectionParams = additionalProperties.value.map((p: ListItem | string) =>
       typeof p === 'string' ? p : p.title || '',
     );
-    await store.set('config', config);
-    await store.save();
+    log('save config', configStore.config);
+    const store = await Store.load('settings1.json');
+    await configStore.saveConfig(store);
   }
 
   async function save (close: boolean) {
@@ -101,6 +95,8 @@
   }
 
   async function reset () {
+    const store = await Store.load('settings1.json');
+    await configStore.initConfig(store);
     await init();
   }
 
