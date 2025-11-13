@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.2
+
+- update freerdp to 1.18.0
+
+## v0.3.1
+
+- update freerdp to 1.18.0
+- update dependencies
+
 ## v0.3.0
 
 - refactor / use pinia store
