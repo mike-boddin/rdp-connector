@@ -3,6 +3,7 @@
 ## v0.3.2
 
 - update freerdp to 1.18.0
+- update dependencies
 
 ## v0.3.1
 
