@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.3
+
+- update freerdp to 1.19.0
+
 ## v0.3.2
 
 - update freerdp to 1.18.0
