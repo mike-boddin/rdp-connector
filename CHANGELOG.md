@@ -1,13 +1,22 @@
 # Changelog
 
+## v0.3.4
+
+- update dependencies
+- update freerdp to 3.20.0
+
+## v0.3.3
+
+- update freerdp to 3.19.0
+
 ## v0.3.2
 
-- update freerdp to 1.18.0
+- update freerdp to 3.18.0
 - update dependencies
 
 ## v0.3.1
 
-- update freerdp to 1.18.0
+- update freerdp to 3.18.0
 - update dependencies
 
 ## v0.3.0
