@@ -3,7 +3,7 @@
 ## v0.3.5
 
 - update dependencies
-- FREERDP_VERSION=3.20.2
+- FREERDP_VERSION=3.21.0
 
 ## v0.3.4
 
