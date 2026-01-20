@@ -12,7 +12,8 @@
     "lint": "eslint . --fix",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build"
+    "tauri:build": "tauri build",
+    "freerdp:build": "./freerdp/build.sh"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.9",
