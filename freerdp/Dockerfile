@@ -2,16 +2,14 @@ FROM ubuntu:22.04
 
 ENV OPT_FUSE_DEFAULT=ON
 ENV DEBIAN_FRONTEND=noninteractive
-ENV FREERDP_VERSION=3.20.0
+ENV FREERDP_VERSION=3.21.0
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     ninja-build \
     git \
-    pkg-config
-
-RUN apt-get install -y \
+    pkg-config \
     libssl-dev \
     libx11-dev \
     libxext-dev \
@@ -23,9 +21,7 @@ RUN apt-get install -y \
     libxrandr-dev \
     libxi-dev \
     libxss-dev \
-    libfuse3-dev
-
-RUN apt-get install -y \
+    libfuse3-dev \
     libasound2-dev \
     libpulse-dev \
     libavutil-dev \
@@ -34,9 +30,7 @@ RUN apt-get install -y \
     libavformat-dev \
     libjpeg-dev \
     libturbojpeg0-dev \
-    libopenh264-dev
-
-RUN apt-get install -y \
+    libopenh264-dev \
     libcups2-dev \
     libxml2-dev \
     libkrb5-dev \
@@ -45,37 +39,25 @@ RUN apt-get install -y \
     libudev-dev \
     libdbus-glib-1-dev \
     uuid-dev \
-    libffi-dev
-
-RUN apt-get install -y \
+    libffi-dev \
     libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-good1.0-dev \
     libcairo2-dev \
     libpango1.0-dev \
     libglib2.0-dev \
-    libgdk-pixbuf2.0-dev
-
-RUN apt-get install -y \
+    libgdk-pixbuf2.0-dev \
     libgtk-3-dev \
-    || echo "GTK3 installation failed, continuing without WebView support"
-
-RUN apt-get install -y \
     libwebkit2gtk-4.0-dev \
-    || echo "WebKit installation failed, continuing without WebView support"
-
-RUN apt-get install -y \
     libwayland-dev \
-    libxkbcommon-dev
-
-RUN apt-get install -y \
-         dpkg-dev \
-         libxrender-dev \
-         libxfixes-dev \
-         libxtst-dev \
-         libswresample-dev \
-         libcjson-dev \
-         patchelf \
+    libxkbcommon-dev \
+    dpkg-dev \
+    libxrender-dev \
+    libxfixes-dev \
+    libxtst-dev \
+    libswresample-dev \
+    libcjson-dev \
+    patchelf \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /build
