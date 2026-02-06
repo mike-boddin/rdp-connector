@@ -29,7 +29,7 @@
   "devDependencies": {
     "@tauri-apps/cli": "^2",
     "@tsconfig/node24": "^24.0.3",
-    "@types/node": "^25.0.3",
+    "@types/node": "^25.2.1",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.2",
