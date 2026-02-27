@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.6
+
+- update dependencies
+- FREERDP_VERSION=3.23.0
+
 ## v0.3.5
 
 - update dependencies
