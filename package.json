@@ -31,7 +31,7 @@
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^25.0.3",
     "@vitejs/plugin-vue": "^6.0.3",
-    "@vue/tsconfig": "^0.8.1",
+    "@vue/tsconfig": "^0.9.0",
     "eslint": "^9.39.2",
     "eslint-config-vuetify": "^4.3.4",
     "npm-run-all2": "^8.0.4",
