@@ -115,10 +115,15 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
     async startPty () {
       const configStore = useConfigStore();
       const logStore = useLogStore();
-      const prog = configStore.config?.freerdpPath;
-      const params = [configStore.config?.rdpFile, ...(configStore.config?.connectionParams || [])];
-      if (configStore.config?.username) {
-        params.push(`/u:${configStore.config?.username}`);
+      const config = configStore.config;
+      if (!config) {
+        logStore.appendLog('No config selected');
+        return;
+      }
+      const prog = config.freerdpPath;
+      const params = [config.rdpFile, ...(config.connectionParams || [])];
+      if (config.username) {
+        params.push(`/u:${config.username}`);
       }
       logStore.clearLog();
       logStore.appendLog('FreeRDP Process started..');

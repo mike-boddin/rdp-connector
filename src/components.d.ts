@@ -16,6 +16,7 @@ declare module 'vue' {
     RdpConnector: typeof import('./components/RdpConnector.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SettingsChooser: typeof import('./components/SettingsChooser.vue')['default']
     SettingsOptions: typeof import('./components/SettingsOptions.vue')['default']
   }
 }
