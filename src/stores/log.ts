@@ -34,7 +34,7 @@ export const useLogStore = defineStore('log-store', {
       if (this.forbiddenLogs.length > 0) {
         log('check against forbiddenLogs', this.forbiddenLogs);
       }
-      return this.forbiddenLogs.some(forbiddenLog => forbiddenLog.includes(msg));
+      return this.forbiddenLogs.some(forbiddenLog => msg.includes(forbiddenLog) || forbiddenLog.includes(msg));
     },
     suppressLogsWith (msg: string) {
       log('suppressLogsWith', msg);
