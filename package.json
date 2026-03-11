@@ -13,7 +13,8 @@
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
-    "freerdp:build": "./freerdp/build.sh"
+    "freerdp:build": "./freerdp/build.sh",
+    "test": "vitest"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.9",
@@ -31,9 +32,12 @@
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^25.3.0",
     "@vitejs/plugin-vue": "^6.0.4",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.3",
     "eslint-config-vuetify": "^4.3.4",
+    "jsdom": "^28.1.0",
     "npm-run-all2": "^8.0.4",
     "sass-embedded": "^1.97.1",
     "typescript": "~5.9.3",
@@ -44,6 +48,7 @@
     "vite": "^7.3.0",
     "vite-plugin-vue-layouts-next": "^2.0.1",
     "vite-plugin-vuetify": "^2.1.2",
+    "vitest": "^4.0.18",
     "vue-tsc": "^3.2.1"
   }
 }
