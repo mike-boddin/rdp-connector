@@ -1,7 +1,14 @@
 # Changelog
 
-## v0.3.6
+## v1.0.0
 
+- update config to save multiple settings
+- add settings-chooser
+- add tooltips
+- add copy button
+- better logs
+- hardening and polishing config
+- use structuredClone for config cloning
 - update dependencies
 - FREERDP_VERSION=3.23.0
 
