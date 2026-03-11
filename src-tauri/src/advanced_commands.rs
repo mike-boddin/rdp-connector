@@ -92,3 +92,24 @@ pub async fn stop_pty(state: State<'_, SharedPty>) -> Result<(), String> {
     }
     Ok(())
 }
+
+#[tauri::command]
+pub async fn focus_rdp(state: State<'_, SharedPty>) -> Result<(), String> {
+    let proc_state = state.lock().await;
+    if proc_state.child.is_some() {
+        // Second attempt: search by window name if PID search fails
+        let output_name = std::process::Command::new("xdotool")
+            .args(["search", "--name", "freerdp", "windowactivate"])
+            .output();
+
+        match output_name {
+            Ok(out) if out.status.success() => return Ok(()),
+            Ok(_) => return Err("Could not find RDP window. Ensure freerdp is running and xdotool is installed.".into()),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
+                return Err("xdotool not found. Please install it to use this feature.".into());
+            }
+            Err(e) => return Err(format!("Error running xdotool: {}", e)),
+        }
+    }
+    Err("RDP process not running".into())
+}

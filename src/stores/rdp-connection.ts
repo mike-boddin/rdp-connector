@@ -140,5 +140,15 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
       logStore.appendLog('Process stopped');
       this.processIsRunning = false;
     },
+    async focusRdp () {
+      const logStore = useLogStore();
+      try {
+        await invoke('focus_rdp');
+      } catch (error) {
+        if (error) {
+          logStore.appendLog(error.toString());
+        }
+      }
+    },
   },
 });

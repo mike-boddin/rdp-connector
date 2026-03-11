@@ -159,4 +159,28 @@ describe('RDP Connection Store', () => {
       expect(stopPtySpy).toHaveBeenCalled();
     });
   });
+
+  describe('focusRdp', () => {
+    it('calls focus_rdp command', async () => {
+      const store = useRdpConnectionStore();
+      const logStore = useLogStore();
+      (invoke as any).mockResolvedValue(undefined);
+
+      await store.focusRdp();
+
+      expect(invoke).toHaveBeenCalledWith('focus_rdp');
+    });
+
+    it('logs error when focus_rdp fails', async () => {
+      const store = useRdpConnectionStore();
+      const logStore = useLogStore();
+      const errorMessage = 'xdotool not found';
+      (invoke as any).mockRejectedValue(errorMessage);
+
+      await store.focusRdp();
+
+      expect(invoke).toHaveBeenCalledWith('focus_rdp');
+      expect(logStore.log).toContain(errorMessage);
+    });
+  });
 });

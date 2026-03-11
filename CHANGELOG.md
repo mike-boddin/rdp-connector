@@ -9,6 +9,10 @@
 - better logs
 - hardening and polishing config
 - use structuredClone for config cloning
+- add 'Jump to RDP' button to focus FreeRDP window when active
+
+## v0.3.6
+
 - update dependencies
 - FREERDP_VERSION=3.23.0
 
