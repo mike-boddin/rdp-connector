@@ -1,5 +1,8 @@
 # RDP-Connector
 
+[![Build](https://github.com/mike-boddin/rdp-connector/actions/workflows/build.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/build.yml)
+[![Test](https://github.com/mike-boddin/rdp-connector/actions/workflows/test.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/test.yml)
+
 A Tauri App for wrapping the usage of *.rdpx files with freerdp.  
 The main purpose for writing this tool is to handle RDP with Azure Virtual Desktop from a linux machine.  
 The oauth login flow will be handled by the RDP-Connector more or less conveniently.
