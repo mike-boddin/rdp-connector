@@ -28,3 +28,6 @@ freerdp/lib/
 *.tar.gz
 /.env
 /.nvmrc
+
+.claude/
+.ai/

@@ -8,7 +8,6 @@ import { VueRouterAutoImports } from 'unplugin-vue-router';
 import VueRouter from 'unplugin-vue-router/vite';
 // Utilities
 import { defineConfig } from 'vite';
-
 import Layouts from 'vite-plugin-vue-layouts-next';
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
@@ -16,7 +15,10 @@ const host = process.env.TAURI_DEV_HOST;
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
-
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent Vite from obscuring rust errors

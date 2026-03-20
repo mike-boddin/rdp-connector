@@ -73,7 +73,8 @@ pub fn run() {
             close_oauth_window,
             advanced_commands::start_pty,
             advanced_commands::send_pty_input,
-            advanced_commands::stop_pty
+            advanced_commands::stop_pty,
+            advanced_commands::focus_rdp
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

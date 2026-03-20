@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <v-text-field
+      v-model="configStore.configs[configStore.selectedIndex]!.title"
+      label="Config Title"
+      :rules="[v => !!v || 'Title is required', v => !isDuplicateTitle(v) || 'Title must be unique']"
+      :type="'text'"
+    />
     <v-text-field v-model="configStore.config.rdpFile" label="Path to rdp(x) File" :type="'text'" />
     <v-text-field v-model="configStore.config.freerdpPath" label="Path to freerdp" :type="'text'" />
     <v-text-field v-model="configStore.config.username" label="username" :type="'text'" />
@@ -22,19 +28,71 @@
           <span>({{ item.props.description || "custom property" }})</span>
         </v-chip>
       </template>
+      <template #item="{ props, item }">
+        <v-list-item v-bind="props" :subtitle="item.raw.props?.description || 'custom property'" />
+      </template>
     </v-combobox>
-    <v-row justify="start">
+    <v-row align="center" justify="start">
       <v-col cols="2">
         <v-btn color="primary" width="100%" @click="save(true)">save</v-btn>
       </v-col>
       <v-col cols="2">
         <v-btn @click="save(false)">apply</v-btn>
       </v-col>
+      <v-col cols="auto">
+        <v-btn
+          color="success"
+          icon
+          size="small"
+          variant="tonal"
+          @click="add()"
+        >
+          <v-icon>mdi-plus</v-icon>
+          <v-tooltip activator="parent" location="top">Add config</v-tooltip>
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn
+          color="info"
+          icon
+          size="small"
+          variant="tonal"
+          @click="clone()"
+        >
+          <v-icon>mdi-content-copy</v-icon>
+          <v-tooltip activator="parent" location="top">Clone config</v-tooltip>
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn
+          color="error"
+          :disabled="configStore.configs.length <= 1"
+          icon
+          size="small"
+          variant="tonal"
+          @click="showConfirmDelete = true"
+        >
+          <v-icon>mdi-minus</v-icon>
+          <v-tooltip activator="parent" location="top">Delete config</v-tooltip>
+        </v-btn>
+      </v-col>
       <v-spacer />
       <v-col cols="2">
         <v-btn @click="reset()">reset</v-btn>
       </v-col>
     </v-row>
+    <v-dialog v-model="showConfirmDelete" max-width="500">
+      <v-card title="Confirm Delete">
+        <v-card-text>
+          Are you sure you want to delete the config "{{ configStore.configTitle }}"?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn @click="showConfirmDelete = false">Cancel</v-btn>
+          <v-btn color="error" variant="tonal" @click="confirmDelete">Delete</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -47,6 +105,7 @@
   import { log } from '@/types/logger.ts';
 
   const configStore = useConfigStore();
+  const showConfirmDelete = ref(false);
 
   const suggestedItems: ListItem[] = [
     { title: '/gfx', props: { description: 'enables the RemoteFX / RDP8 graphics pipeline' } },
@@ -62,6 +121,10 @@
   const additionalProperties = ref<ListItem[]>([]);
   onMounted(async () => await init());
 
+  watch(() => configStore.selectedIndex, async () => {
+    await init();
+  });
+
   onBeforeRouteLeave(async () => {
     await reset();
     return true;
@@ -75,23 +138,56 @@
   }
 
   async function init () {
-    additionalProperties.value = loadParams(configStore.config.connectionParams || []);
+    if (configStore.config) {
+      additionalProperties.value = loadParams(configStore.config.connectionParams || []);
+    }
   }
 
-  async function saveConfig () {
-    configStore.config.connectionParams = additionalProperties.value.map((p: ListItem | string) =>
-      typeof p === 'string' ? p : p.title || '',
-    );
-    log('save config', configStore.config);
-    const store = await Store.load('settings1.json');
-    await configStore.saveConfig(store);
+  async function saveConfig (): Promise<boolean> {
+    if (configStore.config) {
+      const title = configStore.configTitle;
+      if (!title || isDuplicateTitle(title)) {
+        return false;
+      }
+      configStore.config.connectionParams = additionalProperties.value.map((p: ListItem | string) =>
+        typeof p === 'string' ? p : p.title || '',
+      );
+      log('save config', configStore.config);
+      const store = await Store.load('settings1.json');
+      await configStore.saveConfig(store);
+      return true;
+    }
+    return false;
   }
 
   async function save (close: boolean) {
-    await saveConfig();
-    if (close) {
+    if (await saveConfig() && close) {
       router.push('/main').then(_ => {});
     }
+  }
+
+  async function add () {
+    await configStore.addConfig();
+    await init();
+  }
+
+  async function clone () {
+    await configStore.cloneConfig(configStore.selectedIndex);
+    await init();
+  }
+
+  async function remove () {
+    await configStore.deleteConfig(configStore.selectedIndex);
+    await init();
+  }
+
+  async function confirmDelete () {
+    showConfirmDelete.value = false;
+    await remove();
+  }
+
+  function isDuplicateTitle (title: string): boolean {
+    return configStore.configs.some((c, index) => c.title === title && index !== configStore.selectedIndex);
   }
 
   async function reset () {

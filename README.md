@@ -1,5 +1,8 @@
 # RDP-Connector
 
+[![Build](https://github.com/mike-boddin/rdp-connector/actions/workflows/build.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/build.yml)
+[![Test](https://github.com/mike-boddin/rdp-connector/actions/workflows/test.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/test.yml)
+
 A Tauri App for wrapping the usage of *.rdpx files with freerdp.  
 The main purpose for writing this tool is to handle RDP with Azure Virtual Desktop from a linux machine.  
 The oauth login flow will be handled by the RDP-Connector more or less conveniently.
@@ -20,18 +23,24 @@ You can download the RDP configuration file here: [client.wvd.microsoft](https:/
 ## Download ready-to-use binaries
 
 You don't want to build RDP-Connector on your own? You can download recent versions from the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases).  
-Vou can try the latest freerdp binaries from [freerdp.com/releases](https://pub.freerdp.com/releases/).
+You can try the latest freerdp binaries from [freerdp.com/releases](https://pub.freerdp.com/releases/).
 
 ## Usage
 
-* start the app
-* go to settings and set the config-values
-* (you can use the wrapper-script from the freerdp binaries in the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases) as "Path to freerdp")  
+* Start the app.
+* Go to the **Settings** tab to manage your RDP configurations:
+  * You can now save and manage **multiple RDP configurations**.
+  * Use the **Settings Chooser** (the dropdown at the top of the settings page) to switch between different profiles.
+  * You can **Add**, **Clone**, or **Delete** configurations as needed.
+  * Use the **Copy button** to easily duplicate connection parameters between profiles.
+  * (Optional: You can use the wrapper-script from the freerdp binaries in the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases) as "Path to freerdp").
 
   ![settings screen](assets/settings-screen.png)
 
-* go to the main page and press "Start RDP"  
-  
+* Go to the **Main** page and press **"Start RDP"** to initiate the connection:
+  * Use the dropdown menu to select your saved configuration.
+  * If a connection is already active, use the **"Jump to RDP"** button to quickly focus the FreeRDP window.
+
   ![main screen](assets/main-screen.png)
 
 ## Build and install from Source
@@ -44,7 +53,7 @@ npm run tauri:build
 ```
 
 After this, you get a ready-to-use binary under `src-tauri/target/release/rdp-connector`.  
-Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_0.1.0_amd64.deb`
+Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_1.0.0_amd64.deb`
 
 ### (Optional) Build your own freerdp
 

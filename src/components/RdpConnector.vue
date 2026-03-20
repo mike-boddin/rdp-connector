@@ -32,7 +32,7 @@
   const configStore = useConfigStore();
 
   const buttonText = computed(() => {
-    return rdpStore.processIsRunning ? 'stop RDP' : 'start RDP';
+    return rdpStore.processIsRunning ? 'Stop RDP' : 'Start RDP';
   });
 
   // startup

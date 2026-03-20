@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.0.0
+
+- FREERDP_VERSION=3.24.1
+- update config to save multiple settings
+- add settings-chooser
+- add tooltips
+- add copy button
+- better logs
+- hardening and polishing config
+- use structuredClone for config cloning
+- add 'Jump to RDP' button to focus FreeRDP window when active
+
+## v0.3.6
+
+- update dependencies
+- FREERDP_VERSION=3.23.0
+
 ## v0.3.5
 
 - update dependencies

@@ -1,8 +1,20 @@
+export interface IConfigListEntry {
+  title: string
+  config: IConnectionConfig
+}
+
 export interface IConnectionConfig {
   rdpFile: string
   freerdpPath: string
   username: string
   connectionParams: string[]
+}
+
+export function clone (config: IConnectionConfig): IConnectionConfig {
+  return {
+    ...config,
+    connectionParams: [...config.connectionParams],
+  };
 }
 
 export const isConfigValid: (ic: IConnectionConfig | undefined) => boolean = (ic: IConnectionConfig | undefined): boolean => {

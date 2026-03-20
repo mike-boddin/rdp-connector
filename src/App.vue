@@ -12,7 +12,20 @@
         <v-icon>mdi-microsoft-windows</v-icon>
       </v-btn>
       <v-app-bar-title style="cursor: pointer;" @click="goToHome">RDP Connector</v-app-bar-title>
+
       <template #append>
+        <v-btn
+          v-if="rdpStore.processIsRunning"
+          class="text-none me-2"
+          height="48"
+          icon
+          slim
+          title="Jump to RDP Session"
+          @click="rdpStore.focusRdp()"
+        >
+          <v-icon>mdi-monitor-arrow-down-variant</v-icon>
+        </v-btn>
+        <SettingsChooser />
         <v-btn
           class="text-none me-2"
           height="48"
