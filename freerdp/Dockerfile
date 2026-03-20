@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ENV OPT_FUSE_DEFAULT=ON
 ENV DEBIAN_FRONTEND=noninteractive
-ENV FREERDP_VERSION=3.23.0
+ENV FREERDP_VERSION=3.24.1
 
 RUN apt-get update && apt-get install -y \
     build-essential \

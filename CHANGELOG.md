@@ -2,6 +2,7 @@
 
 ## v1.0.0
 
+- FREERDP_VERSION=3.24.1
 - update config to save multiple settings
 - add settings-chooser
 - add tooltips
