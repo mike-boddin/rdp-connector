@@ -163,7 +163,6 @@ describe('RDP Connection Store', () => {
   describe('focusRdp', () => {
     it('calls focus_rdp command', async () => {
       const store = useRdpConnectionStore();
-      const logStore = useLogStore();
       (invoke as any).mockResolvedValue(undefined);
 
       await store.focusRdp();
