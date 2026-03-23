@@ -14,7 +14,11 @@
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "freerdp:build": "./freerdp/build.sh",
-    "test": "vitest"
+    "test": "vitest",
+    "docs:dev": "npm run docs:prepare && vitepress dev docs",
+    "docs:build": "npm run docs:prepare && vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "docs:prepare": "cp README.md docs/index.md && cp CHANGELOG.md docs/changelog.md && mkdir -p docs/assets && cp -r assets/* docs/assets/"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.10",
@@ -48,6 +52,7 @@
     "vite": "^7.3.1",
     "vite-plugin-vue-layouts-next": "^2.1.0",
     "vite-plugin-vuetify": "^2.1.3",
+    "vitepress": "^1.6.4",
     "vitest": "^4.1.0",
     "vue-tsc": "^3.2.6"
   }

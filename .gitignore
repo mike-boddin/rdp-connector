@@ -31,3 +31,9 @@ freerdp/lib/
 
 .claude/
 .ai/
+
+# Docs
+docs/*.md
+docs/assets/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
