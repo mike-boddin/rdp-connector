@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.0
+
+- improve OAuth login flow
+- change logo
+- show logo instead of log per default in the log-window
+- add Copy to Clipboard functionality to the log-view
+- FREERDP_VERSION=3.24.2
+
 ## v1.0.0
 
 - FREERDP_VERSION=3.24.1
