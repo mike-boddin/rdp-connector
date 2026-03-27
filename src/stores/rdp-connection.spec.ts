@@ -118,6 +118,31 @@ describe('RDP Connection Store', () => {
 
       await store.startWaitingForOauthResult('https://auth.url');
 
+      // The new code checks immediately. Since mock returns code immediately, it's already false.
+      expect(store.waitingForOauthResult).toBe(false);
+
+      expect(invoke).toHaveBeenCalledWith('read_oauth_url');
+      expect(invoke).toHaveBeenCalledWith('send_pty_input', { input: 'https://localhost/?code=123' });
+      expect(logStore.log).toContain('send oauth code to freerdp process');
+    });
+
+    it('polls for OAuth URL and sends code after interval', async () => {
+      const store = useRdpConnectionStore();
+      const logStore = useLogStore();
+
+      (invoke as any).mockImplementation((cmd: string) => {
+        if (cmd === 'read_oauth_url') {
+          const callCount = (invoke as any).mock.calls.filter((c: any) => c[0] === 'read_oauth_url').length;
+          if (callCount === 1) {
+            return Promise.resolve('https://login.microsoftonline.com/');
+          }
+          return Promise.resolve('https://localhost/?code=123');
+        }
+        return Promise.resolve();
+      });
+
+      await store.startWaitingForOauthResult('https://auth.url');
+
       expect(store.waitingForOauthResult).toBe(true);
 
       // Advance timers to trigger interval
