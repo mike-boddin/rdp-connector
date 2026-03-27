@@ -55,7 +55,7 @@
             variant="solo"
           />
           <div v-else class="my-full-height-logo-container d-flex align-center justify-center">
-            <v-img max-height="100%" max-width="100%" :src="logo" style="filter: grayscale(70%);" />
+            <v-img max-height="100%" max-width="100%" :src="logo" style="filter: grayscale(100%);" />
           </div>
         </v-card>
       </v-col>
@@ -64,7 +64,7 @@
 </template>
 <script setup lang="ts">
   import { Store } from '@tauri-apps/plugin-store';
-  import logo from '@/assets/rdp-connector-icon.svg';
+  import logo from '@/assets/rdp-connector-icon-light.svg';
   import { useConfigStore } from '@/stores/config.ts';
   import { useLogStore } from '@/stores/log.ts';
   import { useRdpConnectionStore } from '@/stores/rdp-connection.ts';

@@ -15,7 +15,7 @@ export default defineConfig({
     hostname: 'https://mike-boddin.github.io/rdp-connector/',
   },
   themeConfig: {
-    logo: '/assets/rdp-connector-icon.svg',
+    logo: '/assets/rdp-connector-icon-light.svg',
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
