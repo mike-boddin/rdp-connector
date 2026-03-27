@@ -2,14 +2,19 @@
   <v-layout>
     <v-app-bar>
       <v-btn
-        class="text-none me-2"
         height="48"
         icon
-        slim
         title="Main"
         to="/main"
+        variant="elevated"
       >
-        <v-icon>mdi-microsoft-windows</v-icon>
+        <img
+          alt="logo"
+          height="32"
+          :src="logo"
+          style="filter: grayscale(70%);"
+          width="32"
+        >
       </v-btn>
       <v-app-bar-title style="cursor: pointer;" @click="goToHome">RDP Connector</v-app-bar-title>
 
@@ -49,6 +54,7 @@
 
 <script setup lang="ts">
   import { Store } from '@tauri-apps/plugin-store';
+  import logo from '@/assets/rdp-connector-icon.svg';
   import router from '@/router/index.js';
   import { useConfigStore } from '@/stores/config.ts';
   import { useRdpConnectionStore } from '@/stores/rdp-connection.ts';
