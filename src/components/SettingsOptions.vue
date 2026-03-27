@@ -24,12 +24,12 @@
     >
       <template #chip="{ props, item }">
         <v-chip v-bind="props">
-          <strong>{{ item.title }}</strong>&nbsp;
-          <span>({{ item.props.description || "custom property" }})</span>
+          <strong>{{ item.title || item }}</strong>&nbsp;
+          <span>({{ item.props?.description || "custom property" }})</span>
         </v-chip>
       </template>
       <template #item="{ props, item }">
-        <v-list-item v-bind="props" :subtitle="item.raw.props?.description || 'custom property'" />
+        <v-list-item v-bind="props" :subtitle="item.props?.description || 'custom property'" />
       </template>
     </v-combobox>
     <v-row align="center" justify="start">

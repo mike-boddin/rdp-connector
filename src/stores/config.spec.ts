@@ -20,6 +20,7 @@ describe('Config Store', () => {
       const store = useConfigStore();
       expect(store.configs).toEqual([]);
       expect(store.selectedIndex).toBe(0);
+      expect(store.showLogo).toBe(true);
     });
   });
 
@@ -33,6 +34,7 @@ describe('Config Store', () => {
       expect(store.configs).toHaveLength(1);
       expect(store.configs[0]!.title).toBe('Default Config');
       expect(store.selectedIndex).toBe(0);
+      expect(store.showLogo).toBe(true);
     });
 
     it('initializes from store values', async () => {
@@ -46,6 +48,9 @@ describe('Config Store', () => {
         if (key === 'selectedIndex') {
           return Promise.resolve(0);
         }
+        if (key === 'showLogo') {
+          return Promise.resolve(false);
+        }
         return Promise.resolve(null);
       });
 
@@ -53,6 +58,7 @@ describe('Config Store', () => {
 
       expect(store.configs).toEqual(mockConfigs);
       expect(store.selectedIndex).toBe(0);
+      expect(store.showLogo).toBe(false);
     });
   });
 
@@ -114,11 +120,13 @@ describe('Config Store', () => {
       const store = useConfigStore();
       store.configs = [{ title: 'C1', config: {} as any }];
       store.selectedIndex = 0;
+      store.showLogo = false;
 
       await store.saveConfig(mockStore as unknown as Store);
 
       expect(mockStore.set).toHaveBeenCalledWith('configs', store.configs);
       expect(mockStore.set).toHaveBeenCalledWith('selectedIndex', 0);
+      expect(mockStore.set).toHaveBeenCalledWith('showLogo', false);
       expect(mockStore.save).toHaveBeenCalled();
     });
   });
