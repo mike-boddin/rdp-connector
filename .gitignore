@@ -29,11 +29,11 @@ freerdp/lib/
 /.env
 /.nvmrc
 
-.claude/
 .ai/
 
 # Docs
 docs/*.md
 docs/assets/
+docs/public/
 docs/.vitepress/dist/
 docs/.vitepress/cache/

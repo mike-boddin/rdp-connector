@@ -18,7 +18,7 @@
     "docs:dev": "npm run docs:prepare && vitepress dev docs",
     "docs:build": "npm run docs:prepare && vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:prepare": "cp README.md docs/index.md && cp CHANGELOG.md docs/changelog.md && mkdir -p docs/assets && cp -r assets/* docs/assets/"
+    "docs:prepare": "cp README.md docs/index.md && cp CHANGELOG.md docs/changelog.md && mkdir -p docs/assets && cp -r assets/* docs/assets/ && mkdir -p docs/public && cp -r docs/assets docs/public/"
   },
   "dependencies": {
     "@fontsource/roboto": "5.2.10",
