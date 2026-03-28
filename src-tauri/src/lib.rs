@@ -1,7 +1,6 @@
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tauri::{Emitter, Manager, WindowEvent};
-use tauri::WebviewUrl;
 use tauri::WebviewWindowBuilder;
 
 pub mod advanced_commands;
@@ -14,26 +13,33 @@ fn open_oauth_window(app: tauri::AppHandle, url: String) {
     match opt_window {
         Some(window) => {
             let _ = window.eval(&format!("window.location.replace('{}')", url));
-            window
         }
         None => {
-            let window = WebviewWindowBuilder::new(
-            &app,
-            "oauth".to_string(),
-            WebviewUrl::App(url.parse().unwrap()),
-        ) .title("Login")
-            .inner_size(600.0, 700.0)
-            .build()
-            .unwrap();
+            let target_url = url.parse().expect("Failed to parse OAuth URL");
+            let mut builder = WebviewWindowBuilder::new(
+                &app,
+                OAUTH_WINDOW_NAME,
+                tauri::WebviewUrl::External(target_url),
+            )
+            .title("Login")
+            .inner_size(600.0, 700.0);
+
+            if let Ok(app_data) = app.path().app_data_dir() {
+                let _ = std::fs::create_dir_all(&app_data);
+                builder = builder.data_directory(app_data).incognito(false);
+            }
+
+            let window = builder.build().unwrap();
+
+            let app_handle = app.clone();
             window.on_window_event(move |x| {
                 match x {
-                    WindowEvent::CloseRequested {..} =>{
-                        app.emit("oauth-closed", ()).unwrap();
+                    WindowEvent::CloseRequested { .. } => {
+                        app_handle.emit("oauth-closed", ()).unwrap();
                     }
-                    _ =>{}
+                    _ => {}
                 }
             });
-            window
         }
     };
 }

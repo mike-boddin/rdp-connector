@@ -2,7 +2,6 @@ FROM ubuntu:22.04
 
 ENV OPT_FUSE_DEFAULT=ON
 ENV DEBIAN_FRONTEND=noninteractive
-ENV FREERDP_VERSION=3.24.1
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -62,6 +61,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /build
 
+ENV FREERDP_VERSION=3.24.2
 RUN git clone https://github.com/freerdp/freerdp.git --branch $FREERDP_VERSION --single-branch && mkdir freerdp-build
 
 RUN cmake -GNinja \

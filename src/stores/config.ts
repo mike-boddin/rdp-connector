@@ -14,6 +14,7 @@ export const useConfigStore = defineStore('config-store', {
   state: () => ({
     configs: [] as IConfigListEntry[],
     selectedIndex: 0,
+    showLogo: true,
   }),
   getters: {
     config (state): IConnectionConfig {
@@ -32,6 +33,7 @@ export const useConfigStore = defineStore('config-store', {
 
       this.configs = (await store.get<IConfigListEntry[]>('configs')) || [];
       this.selectedIndex = (await store.get<number>('selectedIndex')) || 0;
+      this.showLogo = (await store.get<boolean>('showLogo')) ?? true;
 
       if (this.configs.length === 0) {
         const oldConfig = await store.get<IConnectionConfig>('config');
@@ -99,12 +101,15 @@ export const useConfigStore = defineStore('config-store', {
         }
       }
     },
-    async saveConfig (store: Store) {
-      const logStore = useLogStore();
+    async saveConfig (store: Store, silent = false) {
       await store.set('configs', this.configs);
       await store.set('selectedIndex', this.selectedIndex);
+      await store.set('showLogo', this.showLogo);
       await store.save();
-      logStore.appendLogAsIs('configs saved: ' + this.configs.length);
+      if (!silent) {
+        const logStore = useLogStore();
+        logStore.appendLogAsIs('configs saved: ' + this.configs.length);
+      }
     },
   },
 });

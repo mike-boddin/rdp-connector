@@ -88,28 +88,41 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
      * @param url
      */
     async startWaitingForOauthResult (url: string | undefined) {
-      if (!url) {
+      if (!url || this.waitingForOauthResult) {
         return;
       }
       const logStore = useLogStore();
       await invoke('open_oauth_window', { url });
       this.waitingForOauthResult = true;
 
-      this.oauthWaiterIntervalId = setInterval(async () => {
-        const currentUrlOfOauthFlow: string = await invoke('read_oauth_url');
+      const checkUrl = async () => {
+        const currentUrlOfOauthFlow: string | undefined = await invoke('read_oauth_url');
 
-        if (currentUrlOfOauthFlow.includes('code=')) {
+        if (currentUrlOfOauthFlow?.includes('code=')) {
           logStore.suppressLogsWith(currentUrlOfOauthFlow);
           logStore.appendLog('send oauth code to freerdp process');
           await this.stopWaitingForOauthResult();
           await invoke('send_pty_input', { input: currentUrlOfOauthFlow });
-          return;
+          return true;
         }
+        return false;
+      };
+
+      // check immediately if we are already logged in
+      if (await checkUrl()) {
+        return;
+      }
+
+      this.oauthWaiterIntervalId = setInterval(async () => {
+        await checkUrl();
       }, 300);
     },
     async stopWaitingForOauthResult () {
       this.waitingForOauthResult = false;
-      clearInterval(this.oauthWaiterIntervalId);
+      if (this.oauthWaiterIntervalId) {
+        clearInterval(this.oauthWaiterIntervalId);
+        this.oauthWaiterIntervalId = undefined;
+      }
       await invoke('close_oauth_window');
     },
     async startPty () {
