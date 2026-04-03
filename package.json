@@ -43,7 +43,7 @@
     "eslint-config-vuetify": "^4.4.0",
     "jsdom": "^29.0.1",
     "npm-run-all2": "^8.0.4",
-    "sass-embedded": "^1.98.0",
+    "sass-embedded": "^1.99.0",
     "typescript": "~5.9.3",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-fonts": "^1.4.0",
