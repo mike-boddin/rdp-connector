@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.0
+
+- add AppImage to released Builds
+
 ## v1.1.0
 
 - improve OAuth login flow

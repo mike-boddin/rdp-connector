@@ -1,6 +1,7 @@
 ## RDP-Connector
 
 * Find the runnable RDP-Connector binary inside `rdp-connector-$VERSION.tar.gz`
+* You can use the AppImage on any Linux distribution: `rdp-connector_$VERSION_amd64.AppImage`
 * On Debian-based Linux distributions you can install RDP-Connector with `rdp-connector_$VERSION_amd64.deb`
 * On RPM-based Linux distributions you can install RDP-Connector with `rdp-connector-$VERSION-1.x86_64.rpm`
 
