@@ -114,7 +114,7 @@ jobs:
 
       - name: Create GitHub Release (from CHANGELOG)
         if: steps.changelog.outputs.found_notes == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           body_path: RELEASE_NOTES.md
@@ -124,7 +124,7 @@ jobs:
 
       - name: Create GitHub Release (auto-generated notes)
         if: steps.changelog.outputs.found_notes == 'false'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
