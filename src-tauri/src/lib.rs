@@ -6,6 +6,37 @@ use tauri::WebviewWindowBuilder;
 pub mod advanced_commands;
 
 const OAUTH_WINDOW_NAME: &str = "oauth";
+const TEAMS_WINDOW_NAME: &str = "teams";
+const TEAMS_URL: &str = "https://teams.cloud.microsoft/";
+const TEAMS_USER_AGENT: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";
+
+#[tauri::command]
+fn open_teams_window(app: tauri::AppHandle) {
+    let opt_window = app.get_webview_window(TEAMS_WINDOW_NAME);
+    match opt_window {
+        Some(window) => {
+            let _ = window.set_focus();
+        }
+        None => {
+            let target_url = TEAMS_URL.parse().expect("Failed to parse Teams URL");
+            let mut builder = WebviewWindowBuilder::new(
+                &app,
+                TEAMS_WINDOW_NAME,
+                tauri::WebviewUrl::External(target_url),
+            )
+            .title("Microsoft Teams")
+            .user_agent(TEAMS_USER_AGENT)
+            .inner_size(1280.0, 800.0);
+
+            if let Ok(app_data) = app.path().app_data_dir() {
+                let _ = std::fs::create_dir_all(&app_data);
+                builder = builder.data_directory(app_data).incognito(false);
+            }
+
+            let _ = builder.build().unwrap();
+        }
+    };
+}
 
 #[tauri::command]
 fn open_oauth_window(app: tauri::AppHandle, url: String) {
@@ -75,6 +106,7 @@ pub fn run() {
         })))
         .invoke_handler(tauri::generate_handler![
             open_oauth_window,
+            open_teams_window,
             read_oauth_url,
             close_oauth_window,
             advanced_commands::start_pty,

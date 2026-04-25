@@ -30,6 +30,16 @@
         >
           <v-icon>mdi-monitor-arrow-down-variant</v-icon>
         </v-btn>
+        <v-btn
+          class="text-none me-2"
+          height="48"
+          icon
+          slim
+          title="Open MS Teams"
+          @click="openTeams"
+        >
+          <v-icon>mdi-microsoft-teams</v-icon>
+        </v-btn>
         <SettingsChooser />
         <v-btn
           class="text-none me-2"
@@ -53,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+  import { invoke } from '@tauri-apps/api/core';
   import { Store } from '@tauri-apps/plugin-store';
   import logo from '@/assets/rdp-connector-icon-light.svg';
   import router from '@/router/index.js';
@@ -71,6 +82,10 @@
 
   function goToHome () {
     router.push('/main');
+  }
+
+  function openTeams () {
+    invoke('open_teams_window');
   }
 
 </script>
