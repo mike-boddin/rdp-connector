@@ -85,7 +85,7 @@
   }
 
   function openTeams () {
-    invoke('open_teams_window');
+    invoke('open_teams_window', { profile: 'rdp-connector' });
   }
 
 </script>

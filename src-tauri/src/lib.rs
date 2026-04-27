@@ -10,7 +10,7 @@ const OAUTH_WINDOW_NAME: &str = "oauth";
 const TEAMS_URL: &str = "https://teams.cloud.microsoft/";
 
 #[tauri::command]
-fn open_teams_window(app: tauri::AppHandle) {
+fn open_teams_window(app: tauri::AppHandle, profile: Option<String>) {
     let browsers = [
         "chromium-browser",
         "chromium",
@@ -21,8 +21,15 @@ fn open_teams_window(app: tauri::AppHandle) {
     ];
 
     for browser in browsers {
+        let mut args = vec![format!("--app={}", TEAMS_URL), "--no-default-browser-check".to_string()];
+        if let Some(ref p) = profile {
+            if !p.is_empty() {
+                args.push(format!("--profile-directory={}", p));
+            }
+        }
+
         if std::process::Command::new(browser)
-            .args([format!("--app={}", TEAMS_URL), "--no-default-browser-check".to_string()])
+            .args(args)
             .spawn()
             .is_ok()
         {
