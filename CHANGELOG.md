@@ -4,6 +4,7 @@
 
 - update dependencies
 - add AppImage to released Builds
+- add MS Teams shortcut button (using browser subprocess)
 
 ## v1.1.0
 
