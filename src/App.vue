@@ -31,6 +31,7 @@
           <v-icon>mdi-monitor-arrow-down-variant</v-icon>
         </v-btn>
         <v-btn
+          v-if="activeFeatures.includes('teams')"
           class="text-none me-2"
           height="48"
           icon
@@ -73,7 +74,10 @@
   const rdpStore = useRdpConnectionStore();
   const configStore = useConfigStore();
 
+  const activeFeatures = ref<string[]>([]);
+
   onMounted(async () => {
+    activeFeatures.value = await invoke('get_features');
     const store = await Store.load('settings1.json');
     await configStore.initConfig(store);
     await rdpStore.init();
@@ -85,7 +89,9 @@
   }
 
   function openTeams () {
-    invoke('open_teams_window', { profile: 'rdp-connector' });
+    if (activeFeatures.value.includes('teams')) {
+      invoke('open_teams_window', { profile: 'rdp-connector' });
+    }
   }
 
 </script>

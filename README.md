@@ -49,11 +49,15 @@ You need npm and Rust installed on your system together with some system librari
 
 ```shell
 npm i
-npm run tauri:build
+# Build the "full" version (default)
+npm run tauri:build -- --features teams
+
+# Build the "lite" version (no Teams)
+npm run tauri:build -- --no-default-features
 ```
 
 After this, you get a ready-to-use binary under `src-tauri/target/release/rdp-connector`.  
-Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_1.0.0_amd64.deb`
+Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_1.2.0_amd64.deb`
 
 ### (Optional) Build your own freerdp
 

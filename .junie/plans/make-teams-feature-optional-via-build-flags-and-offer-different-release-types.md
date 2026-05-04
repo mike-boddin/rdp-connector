@@ -1,6 +1,6 @@
 ---
 sessionId: session-260429-040423-14wy
-isActive: true
+isActive: false
 ---
 
 # Requirements
@@ -18,7 +18,6 @@ The goal is to make the MS Teams shortcut button an optional feature that can be
 - **Out of Scope**:
   - Adding a runtime settings toggle for the Teams button (the goal is build-time exclusion).
   - Modifying the Teams integration logic itself.
-
 
 # Technical Design
 
@@ -67,10 +66,9 @@ The goal is to make the MS Teams shortcut button an optional feature that can be
 - `CHANGELOG.md` (Modified)
 - `README.md` (Modified)
 
-
 # Delivery Steps
 
-###   Step 1: Implement Backend Feature Gating
+### ✓ Step 1: Implement Backend Feature Gating
 Add the `teams` feature to the Rust backend and gate Teams-specific code.
 
 - Modify `src-tauri/Cargo.toml` to include the `teams` feature in `[features]` and add it to `default`.
@@ -78,7 +76,7 @@ Add the `teams` feature to the Rust backend and gate Teams-specific code.
 - Gate `TEAMS_URL`, `open_teams_window`, and its registration in the invoke handler with `#[cfg(feature = "teams")]`.
 - Register the new `get_features` command in the `tauri::generate_handler!`.
 
-###   Step 2: Implement Frontend Capability Detection
+### ✓ Step 2: Implement Frontend Capability Detection
 Update the frontend to dynamically detect and show/hide the Teams feature.
 
 - Add `const activeFeatures = ref<string[]>([])` to the `<script setup>` in `src/App.vue`.
@@ -86,7 +84,7 @@ Update the frontend to dynamically detect and show/hide the Teams feature.
 - Use `v-if="activeFeatures.includes('teams')"` to conditionally render the Teams button in the app bar.
 - Add a check in `openTeams` function to ensure it doesn't try to invoke the missing command if somehow called.
 
-###   Step 3: Configure CI/CD Matrix Builds and Artifact Naming
+### ✓ Step 3: Configure CI/CD Matrix Builds and Artifact Naming
 Update the GitHub Actions workflow to produce multiple release variants.
 
 - Modify `.github/workflows/build.yml` to use a `strategy/matrix` with `variant: [full, lite]`.
@@ -95,7 +93,7 @@ Update the GitHub Actions workflow to produce multiple release variants.
 - Ensure `upload-artifact` uses unique names for each variant's results to avoid collisions.
 - Update the `release` job to download and include all variant artifacts in the GitHub Release.
 
-###   Step 4: Update Documentation and Changelog
+### ✓ Step 4: Update Documentation and Changelog
 Document the new build-time options and update the project history.
 
 - Add a new entry to `CHANGELOG.md` describing the optional Teams feature and the split into "full" and "lite" releases.

@@ -25,3 +25,7 @@ portable-pty = "0.9.0"
 libc = "0.2.186"
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
 
+[features]
+default = ["teams"]
+teams = []
+

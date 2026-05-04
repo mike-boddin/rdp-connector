@@ -2,13 +2,28 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tauri::{Emitter, Manager, WindowEvent};
 use tauri::WebviewWindowBuilder;
+#[cfg(feature = "teams")]
 use tauri_plugin_opener::OpenerExt;
 
 pub mod advanced_commands;
 
 const OAUTH_WINDOW_NAME: &str = "oauth";
+#[cfg(feature = "teams")]
 const TEAMS_URL: &str = "https://teams.cloud.microsoft/";
 
+#[tauri::command]
+fn get_features() -> Vec<String> {
+    #[cfg(feature = "teams")]
+    {
+        vec!["teams".to_string()]
+    }
+    #[cfg(not(feature = "teams"))]
+    {
+        vec![]
+    }
+}
+
+#[cfg(feature = "teams")]
 #[tauri::command]
 fn open_teams_window(app: tauri::AppHandle, profile: Option<String>) {
     let browsers = [
@@ -108,7 +123,9 @@ pub fn run() {
             child: None,
         })))
         .invoke_handler(tauri::generate_handler![
+            get_features,
             open_oauth_window,
+            #[cfg(feature = "teams")]
             open_teams_window,
             read_oauth_url,
             close_oauth_window,
