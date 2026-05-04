@@ -61,7 +61,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /build
 
-ENV FREERDP_VERSION=3.24.2
+ENV FREERDP_VERSION=3.25.0
 RUN git clone https://github.com/freerdp/freerdp.git --branch $FREERDP_VERSION --single-branch && mkdir freerdp-build
 
 RUN cmake -GNinja \
