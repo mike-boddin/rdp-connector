@@ -56,6 +56,8 @@ npm run tauri:build -- --features teams
 npm run tauri:build -- --no-default-features
 ```
 
+The "full" version includes integration with MS Teams, while the "lite" version omits this feature to reduce the application's footprint. If you are building locally, the `teams` feature is enabled by default.
+
 After this, you get a ready-to-use binary under `src-tauri/target/release/rdp-connector`.  
 Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_1.2.0_amd64.deb`
 

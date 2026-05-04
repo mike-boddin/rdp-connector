@@ -4,6 +4,7 @@
 <template>
   <Suspense>
     <SettingsOptions />
+
     <template #fallback>
       <Loading />
     </template>

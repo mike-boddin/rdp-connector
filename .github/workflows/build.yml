@@ -54,6 +54,8 @@ jobs:
       - name: Rename Bundles
         run: |
           find src-tauri/target/release/bundle -type f \( -name "*.deb" -o -name "*.rpm" -o -name "*.AppImage" \) -exec bash -c 'mv "$1" "${1%.*}-${{ matrix.variant }}.${1##*.}"' _ {} \;
+          # Also rename the main binary if it exists in the bundle directory
+          find src-tauri/target/release/bundle -type f -name "rdp-connector" -exec bash -c 'mv "$1" "${1}-${{ matrix.variant }}"' _ {} \;
         shell: bash
 
       - name: Package Binary

@@ -16,6 +16,7 @@
           width="48"
         >
       </v-btn>
+
       <v-app-bar-title style="cursor: pointer;" @click="goToHome">RDP Connector</v-app-bar-title>
 
       <template #append>
@@ -30,6 +31,7 @@
         >
           <v-icon>mdi-monitor-arrow-down-variant</v-icon>
         </v-btn>
+
         <v-btn
           v-if="activeFeatures.includes('teams')"
           class="text-none me-2"
@@ -41,7 +43,9 @@
         >
           <v-icon>mdi-microsoft-teams</v-icon>
         </v-btn>
+
         <SettingsChooser />
+
         <v-btn
           class="text-none me-2"
           height="48"

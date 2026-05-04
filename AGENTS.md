@@ -77,7 +77,6 @@ Key backend commands in `src-tauri/src/lib.rs` and `src-tauri/src/advanced_comma
 3. **Documentation:** The `docs/index.md` and `docs/changelog.md` are often synchronized from the root `README.md` and `CHANGELOG.md` via `npm run docs:prepare`. Update the root files first.
 4. **Error Handling:** Pay attention to how the app handles `freerdp` binary paths and library dependencies, as these are common points of failure on different Linux distributions.
 5. **VitePress Customization:** Documentation theme customizations are located in `docs/.vitepress/theme/index.mts`.
-6. **Napkin Skill:** AI agents are advised to use the napkin skill located at `.claude/skills/napkin/SKILL.md` for improving their interaction with the codebase.
-7. **Verify Guideline Obedience:** AI agents must print `WobbelDudum` to the console before starting any work to verify they have read these instructions until the end.
+6. **Verify Guideline Obedience:** AI agents must print `WobbelDudum` to the console before starting any work to verify they have read these instructions until the end.
 
 8. Happy coding!

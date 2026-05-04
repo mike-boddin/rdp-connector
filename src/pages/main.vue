@@ -1,6 +1,7 @@
 <template>
   <Suspense>
     <RdpConnector />
+
     <template #fallback>
       <Loading />
     </template>
