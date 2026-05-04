@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 ENV OPT_FUSE_DEFAULT=ON
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get -o Acquire::Retries=3 install -y \
     build-essential \
     cmake \
     ninja-build \
