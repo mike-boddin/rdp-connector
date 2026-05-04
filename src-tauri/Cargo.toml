@@ -1,6 +1,6 @@
 [package]
 name = "rdp-connector"
-version = "1.2.0-dev"
+version = "1.2.0"
 description = "RDP Connector"
 authors = ["Mike Boddin"]
 edition = "2024"
@@ -15,13 +15,13 @@ name = "rdp_connector_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
-tauri-build = { version = "2", features = [] }
+tauri-build = { version = "2.6.0", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [] }
-tauri-plugin-opener = "2"
-tokio = { version = "1.51.0", features = ["rt", "process"] }
+tauri = { version = "2.11.0", features = [] }
+tauri-plugin-opener = "2.5.4"
+tokio = { version = "1.52.2", features = ["rt", "process"] }
 portable-pty = "0.9.0"
-libc = "0.2.184"
+libc = "0.2.186"
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
 
