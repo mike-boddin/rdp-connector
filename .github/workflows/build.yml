@@ -48,9 +48,9 @@ jobs:
       - name: Build App
         run: |
           if [ "${{ matrix.variant }}" = "full" ]; then
-            cargo tauri build --features teams
+            npm run tauri build -- --features teams
           else
-            cargo tauri build --no-default-features
+            npm run tauri build
           fi
 
       - name: Rename Bundles
