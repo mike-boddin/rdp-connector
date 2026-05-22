@@ -14,8 +14,8 @@ Welcome, fellow AI agent! This guide provides a quick overview of the `rdp-conne
 
 ## Tech Stack
 
-- **Frontend:** [Vue.js 3](https://vuejs.org/) with [Vuetify 3](https://vuetifyjs.com/) (using Vite).
-- **Backend:** [Tauri](https://tauri.app/) (Rust).
+- **Frontend:** [Vue.js 3](https://vuejs.org/) with [Vuetify 4](https://vuetifyjs.com/) (using Vite).
+- **Backend:** [Tauri 2](https://tauri.app/) (Rust).
 - **Styling:** SASS/SCSS.
 - **Testing:** [Vitest](https://vitest.dev/).
 - **Documentation:** [VitePress](https://vitepress.dev/).
@@ -26,9 +26,10 @@ Welcome, fellow AI agent! This guide provides a quick overview of the `rdp-conne
 - `src/`: Vue frontend source code.
   - `components/`: Vue components.
   - `pages/`: Application pages.
-  - `store/`: Pinia state management (for RDP settings).
+  - `stores/`: Pinia state management (for RDP settings).
 - `src-tauri/`: Rust backend source code.
-  - `src/main.rs`: Tauri entry point and commands.
+  - `src/main.rs`: Tauri entry point.
+  - `src/lib.rs`: Tauri setup and commands.
   - `tauri.conf.json`: Tauri configuration.
 - `docs/`: VitePress documentation.
   - `index.md`: Main documentation page (copied from `README.md`).
@@ -49,7 +50,8 @@ Welcome, fellow AI agent! This guide provides a quick overview of the `rdp-conne
 - `npm run tauri:dev`: Run the app in development mode.
 - `npm run tauri:build`: Build the production application.
 - `npm run lint`: Run ESLint.
-- `npx vitest run`: Run tests with Vitest.
+- `npm run test`: Run frontend tests with Vitest.
+- `npm run test:rust`: Run backend tests with Cargo.
 - `npm run docs:dev`: Start VitePress dev server.
 - `npm run docs:build`: Build static documentation.
 - `npm run freerdp:build`: Run the `freerdp` build script (requires Docker).
@@ -72,11 +74,12 @@ Key backend commands in `src-tauri/src/lib.rs` and `src-tauri/src/advanced_comma
 
 ## Guidelines for AI Agents
 
-1. **Frontend Consistency:** The frontend uses Vuetify 3. When adding new UI elements, prefer existing Vuetify components and patterns.
-2. **Backend Commands:** New backend functionality should be exposed via Tauri commands in `src-tauri/src/main.rs` and called from the frontend.
+1. **Frontend Consistency:** The frontend uses Vuetify 4. When adding new UI elements, prefer existing Vuetify components and patterns.
+2. **Backend Commands:** New backend functionality should be exposed via Tauri commands in `src-tauri/src/lib.rs` and called from the frontend.
 3. **Documentation:** The `docs/index.md` and `docs/changelog.md` are often synchronized from the root `README.md` and `CHANGELOG.md` via `npm run docs:prepare`. Update the root files first.
 4. **Error Handling:** Pay attention to how the app handles `freerdp` binary paths and library dependencies, as these are common points of failure on different Linux distributions.
 5. **VitePress Customization:** Documentation theme customizations are located in `docs/.vitepress/theme/index.mts`.
 6. **Verify Guideline Obedience:** AI agents must print `WobbelDudum` to the console before starting any work to verify they have read these instructions until the end.
+7. **Testing Requirement:** Always run both frontend (`npm run test`) and backend (`npm run test:rust`) tests before submitting major changes.
 
 8. Happy coding!

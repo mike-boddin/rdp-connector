@@ -40,6 +40,8 @@ You can try the latest freerdp binaries from [freerdp.com/releases](https://pub.
 * Go to the **Main** page and press **"Start RDP"** to initiate the connection:
   * Use the dropdown menu to select your saved configuration.
   * If a connection is already active, use the **"Jump to RDP"** button to quickly focus the FreeRDP window.
+  * You can open a Browser Window pointing to MS Teams by pressing the respective Button next to the **Jump to RDP** Button if you need it (full version)
+    * If you don't need it, use the light version
 
   ![main screen](assets/main-screen.png)
 
