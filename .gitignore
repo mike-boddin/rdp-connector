@@ -37,3 +37,5 @@ docs/assets/
 docs/public/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+
+bin/
