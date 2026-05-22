@@ -40,6 +40,8 @@ You can try the latest freerdp binaries from [freerdp.com/releases](https://pub.
 * Go to the **Main** page and press **"Start RDP"** to initiate the connection:
   * Use the dropdown menu to select your saved configuration.
   * If a connection is already active, use the **"Jump to RDP"** button to quickly focus the FreeRDP window.
+  * You can open a Browser Window pointing to MS Teams by pressing the respective Button next to the **Jump to RDP** Button if you need it (full version)
+    * If you don't need it, use the light version
 
   ![main screen](assets/main-screen.png)
 
@@ -49,11 +51,17 @@ You need npm and Rust installed on your system together with some system librari
 
 ```shell
 npm i
-npm run tauri:build
+# Build the "full" version (default)
+npm run tauri:build -- --features teams
+
+# Build the "lite" version (no Teams)
+npm run tauri:build -- --no-default-features
 ```
 
+The "full" version includes integration with MS Teams, while the "lite" version omits this feature to reduce the application's footprint. If you are building locally, the `teams` feature is enabled by default.
+
 After this, you get a ready-to-use binary under `src-tauri/target/release/rdp-connector`.  
-Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_1.0.0_amd64.deb`
+Also, you get a deb-package for installing on Linux: `src-tauri/target/release/bundle/deb/rdp-connector_1.2.0_amd64.deb`
 
 ### (Optional) Build your own freerdp
 

@@ -61,6 +61,10 @@ pub async fn start_pty(app: AppHandle, state: State<'_, SharedPty>, program: Str
 #[tauri::command]
 pub async fn send_pty_input(state: State<'_, SharedPty>, input: String) -> Result<(), String> {
     let mut proc_state = state.lock().await;
+    pty_send_input(&mut proc_state, &input)
+}
+
+pub fn pty_send_input(proc_state: &mut PtyState, input: &str) -> Result<(), String> {
     if let Some(writer) = proc_state.writer.as_mut() {
         writer.write_all(input.as_bytes()).map_err(|e| e.to_string())?;
         writer.write_all(b"\n").map_err(|e| e.to_string())?;
@@ -84,6 +88,10 @@ fn kill_process_group(child: &mut dyn portable_pty::Child) {
 #[tauri::command]
 pub async fn stop_pty(state: State<'_, SharedPty>) -> Result<(), String> {
     let mut proc_state = state.lock().await;
+    pty_stop(&mut proc_state)
+}
+
+pub fn pty_stop(proc_state: &mut PtyState) -> Result<(), String> {
     if let Some(mut child) = proc_state.child.take() {
         #[cfg(unix)]
         kill_process_group(child.as_mut());

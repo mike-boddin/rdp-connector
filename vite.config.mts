@@ -4,12 +4,12 @@ import Vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Fonts from 'unplugin-fonts/vite';
 import Components from 'unplugin-vue-components/vite';
-import { VueRouterAutoImports } from 'unplugin-vue-router';
-import VueRouter from 'unplugin-vue-router/vite';
 // Utilities
 import { defineConfig } from 'vite';
 import Layouts from 'vite-plugin-vue-layouts-next';
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+import { VueRouterAutoImports } from 'vue-router/unplugin';
+import VueRouter from 'vue-router/vite';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -88,9 +88,8 @@ export default defineConfig(async () => ({
     exclude: [
       'vuetify',
       'vue-router',
-      'unplugin-vue-router/runtime',
-      'unplugin-vue-router/data-loaders',
-      'unplugin-vue-router/data-loaders/basic',
+      'vue-router/runtime',
+      'vue-router/experimental',
     ],
   },
   define: { 'process.env': {} },

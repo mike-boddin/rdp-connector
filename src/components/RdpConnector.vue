@@ -8,6 +8,7 @@
       </v-col>
     </v-row>
   </v-container>
+
   <v-container class="fill-height">
     <v-row no-gutters>
       <v-col align-self="stretch">
@@ -15,6 +16,7 @@
           <v-toolbar color="" density="compact" flat>
             <v-toolbar-title class="text-caption ml-2" />
             <v-spacer />
+
             <v-btn
               v-if="!configStore.showLogo"
               icon
@@ -25,6 +27,7 @@
               <v-icon>mdi-content-copy</v-icon>
               <v-tooltip activator="parent" location="top">Copy Log To Clipboard</v-tooltip>
             </v-btn>
+
             <v-btn
               v-if="!configStore.showLogo"
               icon
@@ -35,6 +38,7 @@
               <v-icon>mdi-delete-outline</v-icon>
               <v-tooltip activator="parent" location="top">Clear Log</v-tooltip>
             </v-btn>
+
             <v-btn
               icon
               size="x-small"
@@ -45,6 +49,7 @@
               <v-tooltip activator="parent" location="top">{{ configStore.showLogo ? 'Show Log' : 'Hide Log' }}</v-tooltip>
             </v-btn>
           </v-toolbar>
+
           <v-textarea
             v-if="!configStore.showLogo"
             v-model="logStore.log"
@@ -54,6 +59,7 @@
             rows="1"
             variant="solo"
           />
+
           <div v-else class="my-full-height-logo-container d-flex align-center justify-center">
             <v-img max-height="100%" max-width="100%" :src="logo" style="filter: grayscale(100%);" />
           </div>

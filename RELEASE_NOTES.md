@@ -1,5 +1,8 @@
 ## RDP-Connector
 
+There are two flavors available: `lite` and `full`. the `full` flavour comes with integrated MS-Teams Button, the light
+flavor doesn't contain this feature.
+
 * Find the runnable RDP-Connector binary inside `rdp-connector-$VERSION.tar.gz`
 * You can use the AppImage on any Linux distribution: `rdp-connector_$VERSION_amd64.AppImage`
 * On Debian-based Linux distributions you can install RDP-Connector with `rdp-connector_$VERSION_amd64.deb`

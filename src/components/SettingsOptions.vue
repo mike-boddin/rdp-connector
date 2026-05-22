@@ -6,9 +6,11 @@
       :rules="[v => !!v || 'Title is required', v => !isDuplicateTitle(v) || 'Title must be unique']"
       :type="'text'"
     />
+
     <v-text-field v-model="configStore.config.rdpFile" label="Path to rdp(x) File" :type="'text'" />
     <v-text-field v-model="configStore.config.freerdpPath" label="Path to freerdp" :type="'text'" />
     <v-text-field v-model="configStore.config.username" label="username" :type="'text'" />
+
     <v-combobox
       v-model="additionalProperties"
       chips
@@ -28,17 +30,21 @@
           <span>({{ item.props?.description || "custom property" }})</span>
         </v-chip>
       </template>
+
       <template #item="{ props, item }">
         <v-list-item v-bind="props" :subtitle="item.props?.description || 'custom property'" />
       </template>
     </v-combobox>
+
     <v-row align="center" justify="start">
       <v-col cols="2">
         <v-btn color="primary" width="100%" @click="save(true)">save</v-btn>
       </v-col>
+
       <v-col cols="2">
         <v-btn @click="save(false)">apply</v-btn>
       </v-col>
+
       <v-col cols="auto">
         <v-btn
           color="success"
@@ -51,6 +57,7 @@
           <v-tooltip activator="parent" location="top">Add config</v-tooltip>
         </v-btn>
       </v-col>
+
       <v-col cols="auto">
         <v-btn
           color="info"
@@ -63,6 +70,7 @@
           <v-tooltip activator="parent" location="top">Clone config</v-tooltip>
         </v-btn>
       </v-col>
+
       <v-col cols="auto">
         <v-btn
           color="error"
@@ -76,16 +84,20 @@
           <v-tooltip activator="parent" location="top">Delete config</v-tooltip>
         </v-btn>
       </v-col>
+
       <v-spacer />
+
       <v-col cols="2">
         <v-btn @click="reset()">reset</v-btn>
       </v-col>
     </v-row>
+
     <v-dialog v-model="showConfirmDelete" max-width="500">
       <v-card title="Confirm Delete">
         <v-card-text>
           Are you sure you want to delete the config "{{ configStore.configTitle }}"?
         </v-card-text>
+
         <v-card-actions>
           <v-spacer />
           <v-btn @click="showConfirmDelete = false">Cancel</v-btn>

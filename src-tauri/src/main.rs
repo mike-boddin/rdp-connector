@@ -2,5 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    rdp_connector_lib::run()
+    if let Err(e) = rdp_connector_lib::run() {
+        eprintln!("Error while running tauri application: {}", e);
+    }
 }

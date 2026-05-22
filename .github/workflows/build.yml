@@ -9,6 +9,9 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        variant: [full, lite]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
@@ -35,33 +38,48 @@ jobs:
             libxdo-dev \
             libssl-dev \
             libayatana-appindicator3-dev \
-            librsvg2-dev
+            librsvg2-dev \
+            xdg-utils \
+            xdotool
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build App
-        run: npm run tauri build
+        run: |
+          if [ "${{ matrix.variant }}" = "full" ]; then
+            npm run tauri build -- --features teams
+          else
+            npm run tauri build -- --no-default-features
+          fi
+
+      - name: Rename Bundles
+        run: |
+          find src-tauri/target/release/bundle -type f \( -name "*.deb" -o -name "*.rpm" -o -name "*.AppImage" \) -exec bash -c 'mv "$1" "${1%.*}-${{ matrix.variant }}.${1##*.}"' _ {} \;
+          # Also rename the main binary if it exists in the bundle directory
+          find src-tauri/target/release/bundle -type f -name "rdp-connector" -exec bash -c 'mv "$1" "${1}-${{ matrix.variant }}"' _ {} \;
+        shell: bash
 
       - name: Package Binary
         run: |
           cd src-tauri/target/release
-          tar -czf ../../../rdp-connector-${{ github.ref_name }}.tar.gz rdp-connector
+          tar -czf ../../../rdp-connector-${{ matrix.variant }}-${{ github.ref_name }}.tar.gz rdp-connector
         shell: bash
 
       - name: Upload Binary
         uses: actions/upload-artifact@v7
         with:
-          name: rdp-connector
-          path: rdp-connector-${{ github.ref_name }}.tar.gz
+          name: rdp-connector-${{ matrix.variant }}
+          path: rdp-connector-${{ matrix.variant }}-${{ github.ref_name }}.tar.gz
 
       - name: Upload Bundles
         uses: actions/upload-artifact@v7
         with:
-          name: rdp-connector-bundles
+          name: rdp-connector-bundles-${{ matrix.variant }}
           path: |
             src-tauri/target/release/bundle/**/*.deb
             src-tauri/target/release/bundle/**/*.rpm
+            src-tauri/target/release/bundle/**/*.AppImage
 
   freerdp:
     runs-on: ubuntu-22.04

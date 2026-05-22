@@ -16,6 +16,7 @@
           width="48"
         >
       </v-btn>
+
       <v-app-bar-title style="cursor: pointer;" @click="goToHome">RDP Connector</v-app-bar-title>
 
       <template #append>
@@ -30,7 +31,21 @@
         >
           <v-icon>mdi-monitor-arrow-down-variant</v-icon>
         </v-btn>
+
+        <v-btn
+          v-if="activeFeatures.includes('teams')"
+          class="text-none me-2"
+          height="48"
+          icon
+          slim
+          title="Open MS Teams"
+          @click="openTeams"
+        >
+          <v-icon>mdi-microsoft-teams</v-icon>
+        </v-btn>
+
         <SettingsChooser />
+
         <v-btn
           class="text-none me-2"
           height="48"
@@ -53,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+  import { invoke } from '@tauri-apps/api/core';
   import { Store } from '@tauri-apps/plugin-store';
   import logo from '@/assets/rdp-connector-icon-light.svg';
   import router from '@/router/index.js';
@@ -62,7 +78,10 @@
   const rdpStore = useRdpConnectionStore();
   const configStore = useConfigStore();
 
+  const activeFeatures = ref<string[]>([]);
+
   onMounted(async () => {
+    activeFeatures.value = await invoke('get_features');
     const store = await Store.load('settings1.json');
     await configStore.initConfig(store);
     await rdpStore.init();
@@ -71,6 +90,12 @@
 
   function goToHome () {
     router.push('/main');
+  }
+
+  function openTeams () {
+    if (activeFeatures.value.includes('teams')) {
+      invoke('open_teams_window', { profile: 'rdp-connector' });
+    }
   }
 
 </script>
