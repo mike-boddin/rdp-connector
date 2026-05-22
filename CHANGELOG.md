@@ -1,12 +1,16 @@
 # Changelog
 
+## v1.3.0
+
+- add MS Teams shortcut button (using browser subprocess)
+- make Teams feature optional via build flags (`teams` feature)
+- offer "full" and "lite" release variants
+- add rust tests
+
 ## v1.2.0
 
 - update dependencies
 - add AppImage to released Builds
-- add MS Teams shortcut button (using browser subprocess)
-- make Teams feature optional via build flags (`teams` feature)
-- offer "full" and "lite" release variants
 
 ## v1.1.0
 
