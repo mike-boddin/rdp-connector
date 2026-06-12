@@ -50,7 +50,8 @@ Welcome, fellow AI agent! This guide provides a quick overview of the `rdp-conne
 - `npm run tauri:dev`: Run the app in development mode.
 - `npm run tauri:build`: Build the production application.
 - `npm run lint`: Run ESLint.
-- `npm run test`: Run frontend tests with Vitest.
+- `npm run test`: Run all tests.
+- `npm run test:frontend`: Run frontend tests with Vitest.
 - `npm run test:rust`: Run backend tests with Cargo.
 - `npm run docs:dev`: Start VitePress dev server.
 - `npm run docs:build`: Build static documentation.
@@ -80,6 +81,6 @@ Key backend commands in `src-tauri/src/lib.rs` and `src-tauri/src/advanced_comma
 4. **Error Handling:** Pay attention to how the app handles `freerdp` binary paths and library dependencies, as these are common points of failure on different Linux distributions.
 5. **VitePress Customization:** Documentation theme customizations are located in `docs/.vitepress/theme/index.mts`.
 6. **Verify Guideline Obedience:** AI agents must print `WobbelDudum` to the console before starting any work to verify they have read these instructions until the end.
-7. **Testing Requirement:** Always run both frontend (`npm run test`) and backend (`npm run test:rust`) tests before submitting major changes.
+7. **Testing Requirement:** Always run both frontend (`npm run test:frontend`) and backend (`npm run test:rust`) tests before submitting major changes.
 
 8. Happy coding!

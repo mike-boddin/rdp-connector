@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.0-dev
+
+- update dependencies
+
 ## v1.3.0
 
 - add MS Teams shortcut button (using browser subprocess)
