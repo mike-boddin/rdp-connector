@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.3.0-dev
+## v1.3.1-dev
 
 - update dependencies
 
