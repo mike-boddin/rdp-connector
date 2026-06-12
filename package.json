@@ -14,7 +14,8 @@
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "freerdp:build": "./freerdp/build.sh",
-    "test": "vitest",
+    "test": "run-p test:frontend test:rust",
+    "test:frontend": "vitest --run",
     "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
     "docs:dev": "npm run docs:prepare && vitepress dev docs",
     "docs:build": "npm run docs:prepare && vitepress build docs",
@@ -47,13 +48,13 @@
     "sass-embedded": "^1.99.0",
     "typescript": "~6.0.3",
     "unplugin-auto-import": "^21.0.0",
-    "unplugin-fonts": "^1.4.0",
-    "unplugin-vue-components": "^32.0.0",
-    "vite": "^8.0.14",
+    "unplugin-fonts": "^2.0.0",
+    "unplugin-vue-components": "^32.1.0",
+    "vite": "^8.0.16",
     "vite-plugin-vue-layouts-next": "^2.1.0",
     "vite-plugin-vuetify": "^2.1.3",
     "vitepress": "^2.0.0-alpha.17",
     "vitest": "^4.1.6",
-    "vue-tsc": "^3.2.9"
+    "vue-tsc": "^3.3.4"
   }
 }
