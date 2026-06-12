@@ -1,7 +1,8 @@
 # RDP-Connector
 
 [![Build](https://github.com/mike-boddin/rdp-connector/actions/workflows/build.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/build.yml)
-[![Test](https://github.com/mike-boddin/rdp-connector/actions/workflows/test.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/test.yml)
+[![Test Frontend](https://github.com/mike-boddin/rdp-connector/actions/workflows/test-frontend.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/test-frontend.yml)
+[![Test Backend](https://github.com/mike-boddin/rdp-connector/actions/workflows/test-backend.yml/badge.svg)](https://github.com/mike-boddin/rdp-connector/actions/workflows/test-backend.yml)
 
 A Tauri App for wrapping the usage of *.rdpx files with freerdp.  
 The main purpose for writing this tool is to handle RDP with Azure Virtual Desktop from a linux machine.  
