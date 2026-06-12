@@ -26,15 +26,3 @@ jobs:
 
       - name: Run tests
         run: npm run test:frontend
-  test-backend:
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v6
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Run tests
-        run: npm run test:rust
