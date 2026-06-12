@@ -7,8 +7,8 @@ A Tauri App for wrapping the usage of *.rdpx files with freerdp.
 The main purpose for writing this tool is to handle RDP with Azure Virtual Desktop from a linux machine.  
 The oauth login flow will be handled by the RDP-Connector more or less conveniently.
 
-The frontend code is quite a mess. It uses [Vue.js](https://vuejs.org/) with [Vuetify](https://vuetifyjs.com), which is __much more__ than this small UI needs.  
-Feel free to contribute and cleanup.
+The frontend code uses [Vue.js](https://vuejs.org/) with [Vuetify](https://vuetifyjs.com), which is maybe more than this small UI needs. But it's easy to maintain (is it?).    
+Feel free to contribute.
 
 ## Where can I get my *.rdpx file for AVD?
 
