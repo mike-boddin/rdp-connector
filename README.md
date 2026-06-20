@@ -53,10 +53,10 @@ You need npm and Rust installed on your system together with some system librari
 ```shell
 npm i
 # Build the "full" version (default)
-npm run tauri:build -- --features teams
+npm run tauri:build
 
 # Build the "lite" version (no Teams)
-npm run tauri:build -- --no-default-features
+npm run tauri:build -- -- --no-default-features
 ```
 
 The "full" version includes integration with MS Teams, while the "lite" version omits this feature to reduce the application's footprint. If you are building locally, the `teams` feature is enabled by default.
