@@ -34,7 +34,7 @@
     "vue": "^3.5.38",
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.11.1",
+    "@tauri-apps/cli": "^2.11.3",
     "@tsconfig/node24": "^24.0.4",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vitest/coverage-v8": "^4.1.8",
