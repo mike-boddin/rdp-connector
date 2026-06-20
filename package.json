@@ -39,7 +39,7 @@
     "@vitejs/plugin-vue": "^6.0.7",
     "@vitest/coverage-v8": "^4.1.8",
     "@vue/test-utils": "^2.4.11",
-    "@types/node": "^25.9.2",
+    "@types/node": "^26.0.0",
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^10.4.0",
     "eslint-config-vuetify": "^4.6.2",
