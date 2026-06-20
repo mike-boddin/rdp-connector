@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.3.1-dev
+## v1.3.1
 
 - update dependencies
 - FREERDP_VERSION=3.27.1
