@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.3.2-dev
+## v1.3.2
 
 - fix build
 
