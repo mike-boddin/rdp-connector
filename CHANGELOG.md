@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.4.0
+
+- bump version to 1.4.0
+- add certificate dialog flow
+- update dependencies
+- FREERDP_VERSION=3.30.0
+
 ## v1.3.2
 
 - fix build
