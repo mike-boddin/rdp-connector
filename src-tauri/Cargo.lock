@@ -3563,7 +3563,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-store"
 version = "2.4.3"
-source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v2#d1573877226e609461761aa538cd0ca4f24d22be"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v2#cdfd462955f911f19f9dffa92c55c5b6a213ecb9"
 dependencies = [
  "dunce",
  "serde",
