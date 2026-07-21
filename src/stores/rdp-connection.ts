@@ -12,6 +12,8 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
     oauthWaiterIntervalId: undefined as number | undefined,
     firstTimeOauth: true,
     processIsRunning: false,
+    showCertificateDialog: false,
+    certificateDetails: '',
     errorStates: ['Failed to connect', 'ERRCONNECT_CONNECT_CANCELLED'],
   }),
   getters: {},
@@ -37,13 +39,17 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
       const logStore = useLogStore();
       await listen<string>('pty-output', async event => {
         if (event.payload.includes('https') && !event.payload.includes('code=')) {
-          const urlRegex = /(https?:\/\/[^\s]+)/g;
+          const urlRegex = /(https?:\/\/\S+)/g;
           const matches: string[] = event.payload.match(urlRegex) || [];
           if (matches.length > 0) {
             logStore.appendLog(this.firstTimeOauth ? 'oauth-flow detected' : 'almost there...');
             this.firstTimeOauth = false;
             await this.startWaitingForOauthResult(matches[0]);
           }
+        } else if (event.payload.includes('Do you trust the above certificate? (Y/T/N)')) {
+          logStore.appendLog('certificate trust prompt detected');
+          this.certificateDetails = event.payload.replace('Do you trust the above certificate? (Y/T/N)', '').trim();
+          this.showCertificateDialog = true;
         } else if (!event.payload.includes('https')) {
           logStore.appendLog(event.payload, 'RDP');
         }
@@ -161,6 +167,16 @@ export const useRdpConnectionStore = defineStore('rdp-connection-store', {
         if (error) {
           logStore.appendLog(error.toString());
         }
+      }
+    },
+    async respondToCertificateTrust (answer: 'Y' | 'T' | 'N') {
+      const logStore = useLogStore();
+      logStore.appendLog(`responding to certificate trust with: ${answer}`);
+      this.showCertificateDialog = false;
+      this.certificateDetails = '';
+      await invoke('send_pty_input', { input: answer });
+      if (answer === 'N') {
+        await this.stopPty();
       }
     },
   },

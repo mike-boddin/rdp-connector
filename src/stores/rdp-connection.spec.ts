@@ -207,4 +207,54 @@ describe('RDP Connection Store', () => {
       expect(logStore.log).toContain(errorMessage);
     });
   });
+
+  describe('Certificate Trust Handling', () => {
+    it('detects certificate trust prompt and shows dialog', async () => {
+      const store = useRdpConnectionStore();
+      const logStore = useLogStore();
+
+      let ptyHandler: any;
+      (listen as any).mockImplementation((event: string, handler: any) => {
+        if (event === 'pty-output') {
+          ptyHandler = handler;
+        }
+        return Promise.resolve(vi.fn());
+      });
+
+      await store.listenForPtyResult();
+
+      const certDetails = 'Common Name: (null)\nSubject: CN = *.wvd.microsoft.com';
+      const payload = `${certDetails}\nDo you trust the above certificate? (Y/T/N)`;
+      await ptyHandler({ payload });
+
+      expect(store.showCertificateDialog).toBe(true);
+      expect(store.certificateDetails).toBe(certDetails);
+      expect(logStore.log).toContain('certificate trust prompt detected');
+    });
+
+    it('responds to certificate trust with Y', async () => {
+      const store = useRdpConnectionStore();
+      (invoke as any).mockResolvedValue(undefined);
+      store.showCertificateDialog = true;
+      store.certificateDetails = 'some details';
+
+      await store.respondToCertificateTrust('Y');
+
+      expect(invoke).toHaveBeenCalledWith('send_pty_input', { input: 'Y' });
+      expect(store.showCertificateDialog).toBe(false);
+      expect(store.certificateDetails).toBe('');
+    });
+
+    it('responds to certificate trust with N and stops PTY', async () => {
+      const store = useRdpConnectionStore();
+      (invoke as any).mockResolvedValue(undefined);
+      store.showCertificateDialog = true;
+      const stopPtySpy = vi.spyOn(store, 'stopPty').mockResolvedValue(undefined);
+
+      await store.respondToCertificateTrust('N');
+
+      expect(invoke).toHaveBeenCalledWith('send_pty_input', { input: 'N' });
+      expect(stopPtySpy).toHaveBeenCalled();
+    });
+  });
 });

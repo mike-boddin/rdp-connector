@@ -26,6 +26,15 @@ You can download the RDP configuration file here: [client.wvd.microsoft](https:/
 You don't want to build RDP-Connector on your own? You can download recent versions from the [Releases Page](https://github.com/mike-boddin/rdp-connector/releases).  
 You can try the latest freerdp binaries from [freerdp.com/releases](https://pub.freerdp.com/releases/).
 
+## Version compatibility
+
+The following table shows which versions of `rdp-connector` are compatible with which versions of `freerdp`:
+
+| rdp-connector   | Compatible freerdp versions |
+|-----------------|-----------------------------|
+| `< 1.4.0`       | `3.0.0` – `3.28.0`          |
+| `>= 1.4.0`      | `3.0.0` and newer (including `3.29.0`+) |
+
 ## Usage
 
 * Start the app.

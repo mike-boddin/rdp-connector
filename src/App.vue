@@ -64,6 +64,8 @@
     <v-main>
       <RouterView />
     </v-main>
+
+    <CertificateTrustDialog />
   </v-layout>
 </template>
 
@@ -71,6 +73,7 @@
   import { invoke } from '@tauri-apps/api/core';
   import { Store } from '@tauri-apps/plugin-store';
   import logo from '@/assets/rdp-connector-icon-light.svg';
+  import CertificateTrustDialog from '@/components/CertificateTrustDialog.vue';
   import router from '@/router/index.js';
   import { useConfigStore } from '@/stores/config.ts';
   import { useRdpConnectionStore } from '@/stores/rdp-connection.ts';
