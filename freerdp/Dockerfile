@@ -61,7 +61,7 @@ RUN apt-get update && apt-get -o Acquire::Retries=3 install -y \
 
 WORKDIR /build
 
-ENV FREERDP_VERSION=3.27.1
+ENV FREERDP_VERSION=3.30.0
 
 RUN git clone https://github.com/freerdp/freerdp.git --branch $FREERDP_VERSION --single-branch && mkdir freerdp-build
 
@@ -74,21 +74,20 @@ RUN cmake -GNinja \
     -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=OFF \
     -DCMAKE_INSTALL_PREFIX=/opt \
     -DCMAKE_INSTALL_RPATH='$ORIGIN/../lib' \
-    -DWITH_SERVER=ON \
+    -DWITH_SERVER=OFF \
     -DWITH_SAMPLE=ON \
     -DWITH_PLATFORM_SERVER=OFF \
     -DUSE_UNWIND=OFF \
     -DWITH_VERBOSE_WINPR_ASSERT=OFF \
-    -DWITH_SWSCALE=OFF \
     -DWITH_FFMPEG=ON \
     -DWITH_WEBVIEW=ON \
     -DWITH_OPENH264=ON \
-    -DWITH_FFMPEG=ON \
     -DWITH_GFX_H264=ON \
     -DWITH_AAD=ON \
     -DWITH_WINPR_JSON=ON \
     -DWITH_JPEG=ON \
-    -DWITH_VAAPI=ON \
+    -DWITH_VAAPI=OFF \
+    -DWITH_VAAPI_H264_ENCODING=OFF \
     -DWITH_SWSCALE=ON \
     -DWITH_GDI=ON \
     -DWITH_SSE2=ON \
