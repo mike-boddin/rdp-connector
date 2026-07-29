@@ -6,12 +6,15 @@
 
 A Tauri App for wrapping the usage of *.rdpx files with freerdp.  
 The main purpose for writing this tool is to handle RDP with Azure Virtual Desktop from a linux machine.  
-The oauth login flow will be handled by the RDP-Connector more or less conveniently.
+**The oauth login flow will be handled by the RDP-Connector more conveniently than the "browse to URL / paste redirect" flow which is provided by the freeRDP CLI.**
 
-The frontend code uses [Vue.js](https://vuejs.org/) with [Vuetify](https://vuetifyjs.com), which is maybe more than this small UI needs. But it's easy to maintain (is it?).    
+The frontend code uses [Vue.js](https://vuejs.org/) with [Vuetify](https://vuetifyjs.com).      
 Feel free to contribute.
 
-## Where can I get my *.rdpx file for AVD?
+## [Deprecated] Where can I get my *.rdpx file for AVD?
+
+**NOTE: the provided way to get the rdpx file which is described here is deprecated as Microsoft is moving towards the Windows-App.**  
+**Future Versions of the RDP-Connector will provide a possibility to provide the gateway connection information via commandline parameters** 
 
 If you need to use Azure Virtual Desktop but prefer not to use the web client or the Windows App (for example, if you’re on Linux), you can connect directly to the virtual desktop via RDP.
 You can download the RDP configuration file here: [client.wvd.microsoft](https://client.wvd.microsoft.com/arm/webclient/index.html).  
