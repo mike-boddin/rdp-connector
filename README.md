@@ -11,15 +11,14 @@ The main purpose for writing this tool is to handle RDP with Azure Virtual Deskt
 The frontend code uses [Vue.js](https://vuejs.org/) with [Vuetify](https://vuetifyjs.com).      
 Feel free to contribute.
 
-## [Deprecated] Where can I get my *.rdpx file for AVD?
+## Where can I get my *.rdpx file for AVD?
 
-**NOTE: the provided way to get the rdpx file which is described here is deprecated as Microsoft is moving towards the Windows-App.**  
+**NOTE: the provided way to get the rdpx file which is described here is can be deprecated at anytime in the future as Microsoft is moving towards the Windows-App.**  
 **Future Versions of the RDP-Connector will provide a possibility to provide the gateway connection information via commandline parameters** 
 
 If you need to use Azure Virtual Desktop but prefer not to use the web client or the Windows App (for example, if you’re on Linux), you can connect directly to the virtual desktop via RDP.
-You can download the RDP configuration file here: [client.wvd.microsoft](https://client.wvd.microsoft.com/arm/webclient/index.html).  
+You can (still) download the RDP configuration file here (you must be logged in before opening this link): [client.wvd.microsoft (Legacy)](https://client.wvd.microsoft.com/arm/webclient/index.html?useLegacy).  
 
-* Login
 * Go to the settings tab, choose "Download the rdp file"
 * click on your desired virtual machine
 * *.rdpx file should be downloaded to your system
