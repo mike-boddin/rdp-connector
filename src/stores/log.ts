@@ -11,7 +11,7 @@ export const useLogStore = defineStore('log-store', {
   actions: {
     appendLog (msg: string, prefix = '') {
       const rawMsg = msg;
-      msg = msg.replace(/[\n\r]/gm, '');
+      msg = msg.replace(/[\n\r]/g, '');
       log('appendLog', msg);
       if (this.shouldNotLog(msg)) {
         log('SKIP', msg);
