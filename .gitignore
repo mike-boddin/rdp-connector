@@ -43,3 +43,5 @@ bin/
 .air/
 
 .claude/
+
+.mcp.json
