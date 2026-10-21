@@ -61,7 +61,7 @@ RUN apt-get update && apt-get -o Acquire::Retries=3 install -y \
 
 WORKDIR /build
 
-ENV FREERDP_VERSION=3.32.1
+ENV FREERDP_VERSION=3.32.2
 
 RUN git clone https://github.com/freerdp/freerdp.git --branch $FREERDP_VERSION --single-branch && mkdir freerdp-build
 
