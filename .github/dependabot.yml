@@ -3,8 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "friday"
+      interval: "monthly"
     assignees:
       - "mike-boddin"
     open-pull-requests-limit: 10
@@ -39,8 +38,7 @@ updates:
   - package-ecosystem: "cargo"
     directory: "/src-tauri"
     schedule:
-      interval: "weekly"
-      day: "friday"
+      interval: "monthly"
     assignees:
       - "mike-boddin"
     open-pull-requests-limit: 5
@@ -53,8 +51,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "friday"
+      interval: "monthly"
     assignees:
       - "mike-boddin"
     commit-message:
